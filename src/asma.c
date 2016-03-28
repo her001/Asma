@@ -97,11 +97,11 @@ int main( int argc, char* argv[])
    ////////////////
   // Addons Box ///////////////////////////////////////////////////////////////////////////////////
   scrolled = gtk_scrolled_window_new( NULL, NULL);
-  listbox = gtk_box_new( GTK_ORIENTATION_VERTICAL, 0);
+  addonBox = gtk_box_new( GTK_ORIENTATION_VERTICAL, 0);
 
   gtk_box_pack_start( GTK_BOX( boxA), scrolled, TRUE, TRUE, 1);
   gtk_scrolled_window_set_policy( GTK_SCROLLED_WINDOW( scrolled), GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
-  gtk_container_add( GTK_CONTAINER( scrolled), listbox);
+  gtk_container_add( GTK_CONTAINER( scrolled), addonBox);
 
 
    //////////////////////////////////
