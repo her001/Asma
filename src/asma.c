@@ -26,6 +26,7 @@ int main( int argc, char* argv[])
    ////////////
   // Window ///////////////////////////////////////////////////////////////////////////////////////
   window = gtk_window_new( GTK_WINDOW_TOPLEVEL);
+  gtk_window_set_icon_from_file( window, "logo.png", NULL);
   gtk_window_set_title( GTK_WINDOW( window), "asma");
   g_signal_connect( G_OBJECT( window), "destroy", G_CALLBACK( call_quit), NULL);
   gtk_window_set_default_size( GTK_WINDOW( window), 600, 200);
