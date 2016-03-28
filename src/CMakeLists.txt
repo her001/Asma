@@ -12,3 +12,5 @@ add_library (addons addons.c)
 
 add_executable (asma asma.c)
 target_link_libraries (asma addons ${GTK3_LIBRARIES})
+
+install (TARGETS asma DESTINATION bin)
