@@ -9,7 +9,7 @@ include_directories (${GTK3_INCLUDE_DIRS})
 link_directories (${GTK3_LIBRARY_DIRS})
 
 # ASMA files
-add_library (addons addons.c)
+add_library (addons addons.c errors errors.c settings settings.c)
 add_executable (asma asma.c)
 target_link_libraries (asma addons ${GTK3_LIBRARIES})
 

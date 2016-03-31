@@ -23,7 +23,7 @@ static void fnc_addon_event( GtkToggleButton* _button)
         i = 0;
         while( i != 50)
         {
-            gtk_box_reorder_child( GTK_WIDGET( addonBox), _button, i);
+            gtk_box_reorder_child( GTK_BOX( addonBox), GTK_WIDGET( _button), i);
             if( active_addons[i] == NULL)
             {
                 active_addons[i] = _name;

@@ -10,7 +10,7 @@
 #include <gtk-3.0/gtk/gtk.h>
 #include <dirent.h>
 
-#define ARMA3_PATH "/.local/share/Steam/steamapps/common/Arma 3"
+#define ARMA3_DEFAULT_PATH "/.local/share/Steam/steamapps/common/Arma 3"
 
 #define DEFAULT_LAUNCH "steam -applaunch 107410"
 #define A3_MOD " -mod="
@@ -23,13 +23,17 @@
 
 int i, ii;
 
+DIR *directory;
+struct dirent *properities;
+
 char* user_root;
 char* arma3_root;
 
 GtkWidget* widget;
 GtkWidget* assistant;
-GtkWidget* boxA;
-GtkWidget* boxB;
+GtkWidget* vBox;
+GtkWidget* hBox;
+GtkWidget* rootBox;
 GtkWidget* addonBox;
 GtkWidget* button;
 GtkWidget* header;
@@ -37,6 +41,9 @@ GtkWidget* image;
 GtkWidget* scrolled;
 GtkWidget* window;
 GtkWidget* item;
+GtkWidget* bar;
+GtkWidget* label;
+GtkWidget* dialog;
 GIcon* icon;
 
 GtkWidget* b_a3_window;
@@ -55,7 +62,7 @@ char* a3_primus;
 
 static void call_quit();
 static void call_launch();
-static void call_refresh();
+void call_refresh();
 static void call_open_folder();
 static void set_a3_window( GtkToggleButton*);
 static void set_a3_nosplash( GtkToggleButton*);

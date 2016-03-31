@@ -2,6 +2,7 @@
 // Author: Pau Busquets Aguiló
 #include "asma.h"
 #include "addons.h"
+#include "settings.h"
 
 
   /********/
@@ -9,9 +10,12 @@
 /*************************************************************************************************/
 int main( int argc, char* argv[])
 {
+  //config
+
+
   //def constants
   user_root = getenv( "HOME");
-  arma3_root = g_strconcat( user_root, ARMA3_PATH, NULL);
+  arma3_root = g_strconcat( user_root, ARMA3_DEFAULT_PATH, NULL);
   a3_window = "";
   a3_nosplash = "";
   a3_world = "";
@@ -26,7 +30,7 @@ int main( int argc, char* argv[])
    ////////////
   // Window ///////////////////////////////////////////////////////////////////////////////////////
   window = gtk_window_new( GTK_WINDOW_TOPLEVEL);
-  gtk_window_set_icon_from_file( window, "asma.png", NULL);
+  gtk_window_set_icon_from_file( GTK_WINDOW( window), "asma.png", NULL);
   gtk_window_set_title( GTK_WINDOW( window), "asma");
   g_signal_connect( G_OBJECT( window), "destroy", G_CALLBACK( call_quit), NULL);
   gtk_window_set_default_size( GTK_WINDOW( window), 600, 200);
@@ -36,9 +40,9 @@ int main( int argc, char* argv[])
   header = gtk_header_bar_new();
   gtk_header_bar_set_show_close_button( GTK_HEADER_BAR( header), TRUE);
 
-  boxA = gtk_box_new( GTK_ORIENTATION_HORIZONTAL, 0);
-  gtk_style_context_add_class( gtk_widget_get_style_context( boxA), "linked");
-  gtk_header_bar_pack_start( GTK_HEADER_BAR( header), boxA);
+  hBox = gtk_box_new( GTK_ORIENTATION_HORIZONTAL, 0);
+  gtk_style_context_add_class( gtk_widget_get_style_context( hBox), "linked");
+  gtk_header_bar_pack_start( GTK_HEADER_BAR( header), hBox);
 
   // play button
   button = gtk_button_new();
@@ -47,7 +51,7 @@ int main( int argc, char* argv[])
   image = gtk_image_new_from_gicon( icon, GTK_ICON_SIZE_BUTTON);
   g_object_unref( icon);
   gtk_container_add( GTK_CONTAINER ( button), image);
-  gtk_container_add( GTK_CONTAINER ( boxA), button);
+  gtk_container_add( GTK_CONTAINER ( hBox), button);
 
   // refresh button
   button = gtk_button_new();
@@ -55,8 +59,8 @@ int main( int argc, char* argv[])
   icon = g_themed_icon_new( "view-refresh");
   image = gtk_image_new_from_gicon( icon, GTK_ICON_SIZE_BUTTON);
   g_object_unref( icon);
-  gtk_container_add( GTK_CONTAINER ( button), image);
-  gtk_container_add( GTK_CONTAINER ( boxA), button);
+  gtk_container_add( GTK_CONTAINER( button), image);
+  gtk_container_add( GTK_CONTAINER( hBox), button);
 
   // open arma 3 folder button
   button = gtk_button_new();
@@ -64,12 +68,15 @@ int main( int argc, char* argv[])
   icon = g_themed_icon_new( "folder");
   image = gtk_image_new_from_gicon( icon, GTK_ICON_SIZE_BUTTON);
   g_object_unref( icon);
-  gtk_container_add( GTK_CONTAINER ( button), image);
-  gtk_container_add( GTK_CONTAINER ( boxA), button);
+  gtk_container_add( GTK_CONTAINER( button), image);
+  gtk_container_add( GTK_CONTAINER( hBox), button);
 
   // Context Frame
-  boxA = gtk_box_new( GTK_ORIENTATION_HORIZONTAL, 0);
-  gtk_container_add( GTK_CONTAINER( window), boxA);
+  rootBox = gtk_box_new( GTK_ORIENTATION_VERTICAL, 0);
+  gtk_container_add( GTK_CONTAINER( window), rootBox);
+
+  hBox = gtk_box_new( GTK_ORIENTATION_HORIZONTAL, 0);
+  gtk_box_pack_start( GTK_BOX( rootBox), hBox, TRUE, TRUE, 0);
 
    //////////////////
   // Settings Box /////////////////////////////////////////////////////////////////////////////////
@@ -86,21 +93,21 @@ int main( int argc, char* argv[])
   b_a3_primus = gtk_toggle_button_new_with_label( "Primus");
   g_signal_connect( G_OBJECT( b_a3_primus), "toggled", G_CALLBACK( set_a3_primus), NULL);
 
-  boxB = gtk_box_new( GTK_ORIENTATION_VERTICAL, 0);
-  gtk_box_pack_end( GTK_BOX( boxA), boxB, FALSE, FALSE, 1);
-  gtk_container_add( GTK_CONTAINER( boxB), b_a3_window);
-  gtk_container_add( GTK_CONTAINER( boxB), b_a3_nosplash);
-  gtk_container_add( GTK_CONTAINER( boxB), b_a3_world);
-  gtk_container_add( GTK_CONTAINER( boxB), b_a3_file_patching);
-  gtk_container_add( GTK_CONTAINER( boxB), b_a3_debug);
-  gtk_container_add( GTK_CONTAINER( boxB), b_a3_primus);
+  vBox = gtk_box_new( GTK_ORIENTATION_VERTICAL, 0);
+  gtk_box_pack_end( GTK_BOX( hBox), vBox, FALSE, FALSE, 1);
+  gtk_container_add( GTK_CONTAINER( vBox), b_a3_window);
+  gtk_container_add( GTK_CONTAINER( vBox), b_a3_nosplash);
+  gtk_container_add( GTK_CONTAINER( vBox), b_a3_world);
+  gtk_container_add( GTK_CONTAINER( vBox), b_a3_file_patching);
+  gtk_container_add( GTK_CONTAINER( vBox), b_a3_debug);
+  gtk_container_add( GTK_CONTAINER( vBox), b_a3_primus);
 
    ////////////////
   // Addons Box ///////////////////////////////////////////////////////////////////////////////////
   scrolled = gtk_scrolled_window_new( NULL, NULL);
   addonBox = gtk_box_new( GTK_ORIENTATION_VERTICAL, 0);
 
-  gtk_box_pack_start( GTK_BOX( boxA), scrolled, TRUE, TRUE, 1);
+  gtk_box_pack_start( GTK_BOX( hBox), scrolled, TRUE, TRUE, 1);
   gtk_scrolled_window_set_policy( GTK_SCROLLED_WINDOW( scrolled), GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
   gtk_container_add( GTK_CONTAINER( scrolled), addonBox);
 
@@ -147,7 +154,7 @@ static void call_launch()
 }
 
 // refresh call
-static void call_refresh()
+void call_refresh()
 {
     active_addons_command = "";
     i = 0;
@@ -166,11 +173,8 @@ static void call_refresh()
         i++;
     }
 
-    DIR *directory;
     i = 0;
-    struct dirent *properities;
-
-    directory = opendir ( arma3_root);
+    directory = opendir( arma3_root);
     if( directory != NULL)
     {
       while( properities = readdir( directory))
@@ -184,13 +188,13 @@ static void call_refresh()
       ( void)closedir( directory);
     }
     else
-      perror( "Couldn't open the directory");
+      fnc_error_nofolder();
 }
 
 // open folder call
 static void call_open_folder()
 {
-    system( g_strconcat( "xdg-open \"", arma3_root, "\"", NULL));
+  system( g_strconcat( "xdg-open \"", arma3_root, "\"", NULL));
 }
 
 // set_a3_window call
