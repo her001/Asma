@@ -71,5 +71,7 @@ static void set_a3_file_patching( GtkToggleButton*);
 static void set_a3_debug( GtkToggleButton*);
 static void set_a3_primus( GtkToggleButton*);
 
+void fnc_set_addonFolder();
+
 #define _COMMON_H
 #endif
