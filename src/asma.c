@@ -3,7 +3,7 @@
 #include "asma.h"
 #include "addons.h"
 #include "settings.h"
-
+#include "errors.h"
 
   /********/
  /* MAIN */
