@@ -1,0 +1,24 @@
+{
+	"app-id": "io.github.busquetsaguilopau.Asma",
+	"runtime": "org.gnome.Platform",
+	"runtime-version": "3.24",
+	"sdk": "org.gnome.Sdk",
+	"command": "asma",
+	"finish-args": [
+		"--socket=x11", "--socket=wayland",
+		"--filesystem=home", "--filesystem=host:ro"
+	],
+	"modules": [
+		{
+		"name": "asma",
+		"buildsystem": "cmake-ninja",
+		"subdir": "src",
+		"sources": [
+			{
+			"type": "git",
+			"url": "https://github.com/busquetsaguilopau/asma.git"
+			}
+		]
+		}
+	]
+}
