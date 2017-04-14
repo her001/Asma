@@ -44,6 +44,9 @@ int main( int argc, char* argv[])
   gtk_style_context_add_class( gtk_widget_get_style_context( hBox), "linked");
   gtk_header_bar_pack_start( GTK_HEADER_BAR( header), hBox);
 
+  gtk_header_bar_set_title( GTK_HEADER_BAR( header), "asma");
+  gtk_header_bar_set_subtitle( GTK_HEADER_BAR( header), "Simple Arma 3 Launcher");
+
   // play button
   button = gtk_button_new();
   g_signal_connect( G_OBJECT( button), "clicked", G_CALLBACK( call_launch), NULL);
