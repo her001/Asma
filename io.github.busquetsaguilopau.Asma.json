@@ -8,9 +8,6 @@
 		"--socket=x11", "--socket=wayland",
 		"--filesystem=home", "--filesystem=host:ro"
 	],
-	"cleanup-commands": [
-		"ninja clean"
-	],
 	"modules": [
 		{
 		"name": "asma",
