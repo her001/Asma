@@ -43,7 +43,7 @@ GtkWidget* window;
 GtkWidget* item;
 GtkWidget* bar;
 GtkWidget* label;
-GtkWidget* dialog;
+GtkWidget* native;
 GIcon* icon;
 
 GtkWidget* b_a3_window;

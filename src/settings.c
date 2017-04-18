@@ -6,21 +6,18 @@
 void fnc_set_addonFolder()
 {
   action = GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER;
-  dialog = gtk_file_chooser_dialog_new( "Open File",
+  native = gtk_file_chooser_native_new( "Open File",
                                         GTK_WINDOW( window),
                                         action,
-                                        ( "_Cancel"),
-                                        GTK_RESPONSE_CANCEL,
                                         ( "_Open"),
-                                        GTK_RESPONSE_ACCEPT,
-                                        NULL);
-  res = gtk_dialog_run( GTK_DIALOG( dialog));
+                                        ( "_Cancel"));
+  res = gtk_native_dialog_run( GTK_NATIVE_DIALOG( native));
   if( res == GTK_RESPONSE_ACCEPT)
   {
-    chooser = GTK_FILE_CHOOSER( dialog);
+    chooser = GTK_FILE_CHOOSER( native);
     arma3_root = gtk_file_chooser_get_filename( chooser);
   }
 
-  gtk_widget_destroy( dialog);
+  gtk_widget_destroy( native);
   call_refresh();
 }
