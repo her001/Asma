@@ -2,6 +2,7 @@
 // Author: Pau Busquets Aguiló
 #include "asma.h"
 #include "addons.h"
+#include "errors.h"
 #include "settings.h"
 
 
