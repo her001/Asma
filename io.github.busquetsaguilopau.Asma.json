@@ -6,7 +6,7 @@
 	"command": "asma",
 	"finish-args": [
 		"--socket=x11", "--socket=wayland",
-		"--filesystem=home:ro", "--filesystem=host:ro"
+		"--filesystem=host:ro"
 	],
 	"modules": [
 		{
