@@ -17,4 +17,4 @@ install (TARGETS asma DESTINATION bin)
 install (FILES ${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}.desktop
 	DESTINATION share/applications)
 install (FILES ${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}.png
-	DESTINATION share/icons/hicolor/256x256)
+	DESTINATION share/icons/hicolor/256x256/apps)
