@@ -15,6 +15,6 @@ target_link_libraries (asma ${GTK3_LIBRARIES})
 # Installation
 install (TARGETS asma DESTINATION bin)
 install (FILES ${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}.desktop
-	DESTINATION applications)
+	DESTINATION share/applications)
 install (FILES ${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}.png
-	DESTINATION icons/hicolor/256x256)
+	DESTINATION share/icons/hicolor/256x256)
