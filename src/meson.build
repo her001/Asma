@@ -6,7 +6,7 @@ src = ['asma.c', 'addons.c', 'errors.c', 'settings.c']
 executable('asma', src,
 	dependencies: gtkdep)
 
-install_data('asma.desktop',
+install_data('../asma.desktop',
 	install_dir: 'share/applications')
-install_data('asma.png',
+install_data('../asma.png',
 	install_dir: 'share/icons/hicolor/256x256/apps')
