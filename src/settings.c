@@ -18,6 +18,6 @@ void fnc_set_addonFolder()
     arma3_root = gtk_file_chooser_get_filename( chooser);
   }
 
-  gtk_widget_destroy( native);
+  g_object_unref( native);
   call_refresh();
 }
