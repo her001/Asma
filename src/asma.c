@@ -181,7 +181,7 @@ void call_refresh()
     directory = opendir( arma3_root);
     if( directory != NULL)
     {
-      while( properities = readdir( directory))
+      while( (properities = readdir( directory)))
       {
           if( strncmp( "@", properities->d_name, strlen( "@")) == 0)
           {
