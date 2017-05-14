@@ -4,6 +4,8 @@
 #include "errors.h"
 #include "settings.h"
 
+static void evt_error_nofolder( GtkInfoBar*, gint);
+
 void fnc_error_nofolder()
 {
   bar = gtk_info_bar_new_with_buttons( ( "_OK"), GTK_RESPONSE_OK, NULL);

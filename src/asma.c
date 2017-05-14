@@ -6,6 +6,16 @@
 #include "settings.h"
 
 
+static void call_quit();
+static void call_launch();
+static void call_open_folder();
+static void set_a3_window( GtkToggleButton*);
+static void set_a3_nosplash( GtkToggleButton*);
+static void set_a3_world( GtkToggleButton*);
+static void set_a3_file_patching( GtkToggleButton*);
+static void set_a3_debug( GtkToggleButton*);
+static void set_a3_primus( GtkToggleButton*);
+
   /********/
  /* MAIN */
 /*************************************************************************************************/

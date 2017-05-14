@@ -2,6 +2,8 @@
 // Author: Pau Busquets Aguiló
 #include "addons.h"
 
+static void fnc_addon_event( GtkToggleButton*);
+
  //////////////////////
 // fnc create addon ////////////////////////////////////////////////////////////////////////////////
 GtkWidget* fnc_create_addon( char* _name)
