@@ -210,7 +210,7 @@ static void call_open_folder()
 {
     error = NULL;
     if( !g_app_info_launch_default_for_uri( g_strconcat( "file://", arma3_root, NULL), NULL, &error))
-        g_warning( "Launching failed: %s\n", error->message);
+        g_warning( "Opening folder failed: %s\n", error->message);
 }
 
 // set_a3_window call
