@@ -15,7 +15,7 @@
 #define DEFAULT_LAUNCH "steam -applaunch 107410"
 #define A3_MOD " -mod="
 #define A3_WINDOW " -window"
-#define A3_NOSPLASH " -nosplash"
+#define A3_NOSPLASH " -noSplash"
 #define A3_WORLD " -world=empty"
 #define A3_FILE_PATCHING " -filePatching"
 #define A3_DEBUG " -showScriptErrors"
