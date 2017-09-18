@@ -9,13 +9,12 @@ include_directories (${GTK3_INCLUDE_DIRS})
 link_directories (${GTK3_LIBRARY_DIRS})
 
 # ASMA files
-add_library (addons addons.c errors errors.c settings settings.c)
-add_executable (asma asma.c)
-target_link_libraries (asma addons ${GTK3_LIBRARIES})
+add_executable (asma asma.c addons.c errors.c settings.c)
+target_link_libraries (asma ${GTK3_LIBRARIES})
 
 # Installation
 install (TARGETS asma DESTINATION bin)
-install (FILES ${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}.desktop
-	DESTINATION ${CMAKE_INSTALL_DATADIR}/applications)
-install (FILES ${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}.png
-	DESTINATION ${CMAKE_INSTALL_DATADIR}/icons/hicolor/256x256)
+install (FILES ../${PROJECT_NAME}.desktop
+	DESTINATION share/applications)
+install (FILES ../${PROJECT_NAME}.png
+	DESTINATION share/icons/hicolor/256x256/apps)

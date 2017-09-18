@@ -2,8 +2,19 @@
 // Author: Pau Busquets Aguiló
 #include "asma.h"
 #include "addons.h"
+#include "errors.h"
 #include "settings.h"
 
+
+static void call_quit();
+static void call_launch();
+static void call_open_folder();
+static void set_a3_window( GtkToggleButton*);
+static void set_a3_nosplash( GtkToggleButton*);
+static void set_a3_world( GtkToggleButton*);
+static void set_a3_file_patching( GtkToggleButton*);
+static void set_a3_debug( GtkToggleButton*);
+static void set_a3_primus( GtkToggleButton*);
 
   /********/
  /* MAIN */
@@ -30,7 +41,7 @@ int main( int argc, char* argv[])
    ////////////
   // Window ///////////////////////////////////////////////////////////////////////////////////////
   window = gtk_window_new( GTK_WINDOW_TOPLEVEL);
-  gtk_window_set_icon_from_file( GTK_WINDOW( window), "asma.png", NULL);
+  gtk_window_set_icon_name( GTK_WINDOW( window), "asma");
   gtk_window_set_title( GTK_WINDOW( window), "asma");
   g_signal_connect( G_OBJECT( window), "destroy", G_CALLBACK( call_quit), NULL);
   gtk_window_set_default_size( GTK_WINDOW( window), 600, 200);
@@ -43,6 +54,9 @@ int main( int argc, char* argv[])
   hBox = gtk_box_new( GTK_ORIENTATION_HORIZONTAL, 0);
   gtk_style_context_add_class( gtk_widget_get_style_context( hBox), "linked");
   gtk_header_bar_pack_start( GTK_HEADER_BAR( header), hBox);
+
+  gtk_header_bar_set_title( GTK_HEADER_BAR( header), "asma");
+  gtk_header_bar_set_subtitle( GTK_HEADER_BAR( header), "Simple Arma 3 Launcher");
 
   // play button
   button = gtk_button_new();
@@ -177,7 +191,7 @@ void call_refresh()
     directory = opendir( arma3_root);
     if( directory != NULL)
     {
-      while( properities = readdir( directory))
+      while( (properities = readdir( directory)))
       {
           if( strncmp( "@", properities->d_name, strlen( "@")) == 0)
           {
@@ -194,7 +208,9 @@ void call_refresh()
 // open folder call
 static void call_open_folder()
 {
-  system( g_strconcat( "xdg-open \"", arma3_root, "\"", NULL));
+    error = NULL;
+    if( !g_app_info_launch_default_for_uri( g_strconcat( "file://", arma3_root, NULL), NULL, &error))
+        g_warning( "Opening folder failed: %s\n", error->message);
 }
 
 // set_a3_window call

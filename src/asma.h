@@ -15,13 +15,14 @@
 #define DEFAULT_LAUNCH "steam -applaunch 107410"
 #define A3_MOD " -mod="
 #define A3_WINDOW " -window"
-#define A3_NOSPLASH " -nosplash"
+#define A3_NOSPLASH " -noSplash"
 #define A3_WORLD " -world=empty"
 #define A3_FILE_PATCHING " -filePatching"
 #define A3_DEBUG " -showScriptErrors"
 #define A3_PRIMUS " MESA_GL_VERSION_OVERRIDE=4.1 MESA_GLSL_VERSION_OVERRIDE=410 \%command\%"
 
 int i, ii;
+GError* error;
 
 DIR *directory;
 struct dirent *properities;
@@ -43,7 +44,7 @@ GtkWidget* window;
 GtkWidget* item;
 GtkWidget* bar;
 GtkWidget* label;
-GtkWidget* dialog;
+GtkFileChooserNative* native;
 GIcon* icon;
 
 GtkWidget* b_a3_window;
@@ -60,16 +61,7 @@ char* a3_file_patching;
 char* a3_debug;
 char* a3_primus;
 
-static void call_quit();
-static void call_launch();
 void call_refresh();
-static void call_open_folder();
-static void set_a3_window( GtkToggleButton*);
-static void set_a3_nosplash( GtkToggleButton*);
-static void set_a3_world( GtkToggleButton*);
-static void set_a3_file_patching( GtkToggleButton*);
-static void set_a3_debug( GtkToggleButton*);
-static void set_a3_primus( GtkToggleButton*);
 
 #define _COMMON_H
 #endif
