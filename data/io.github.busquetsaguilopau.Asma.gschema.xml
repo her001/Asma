@@ -3,10 +3,12 @@
 
 		<key name="game-path" type="s">
 			<default>
-				"~/.local/share/Steam/steamapps/common/Arma 3"
+				".local/share/Steam/steamapps/common/Arma 3"
 			</default>
 			<description>
 				Path to Arma 3 directory.
+
+				If the path is relative, it will be appended to the user's home directory.
 			</description>
 		</key>
 	</schema>

@@ -37,8 +37,12 @@ int main( int argc, char* argv[])
   //init
   gtk_init( &argc, &argv);
   g_object_set(gtk_settings_get_default(), "gtk-application-prefer-dark-theme", TRUE, NULL);
-  gset = g_settings_new( "io.github.busquetsaguilopau.Asma.gschema.xml");
+  gset = g_settings_new( "io.github.busquetsaguilopau.Asma");
   arma3_root = g_settings_get_string( gset, "game-path");
+  if( arma3_root[0] != '/')
+  {
+      arma3_root = g_strconcat( user_root, "/", arma3_root, NULL);
+  }
 
    ////////////
   // Window ///////////////////////////////////////////////////////////////////////////////////////
