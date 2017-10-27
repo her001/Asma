@@ -26,7 +26,7 @@ int main( int argc, char* argv[])
 
   //def constants
   user_root = getenv( "HOME");
-  arma3_root = g_strconcat( user_root, ARMA3_DEFAULT_PATH, NULL);
+  arma3_root = "";
   a3_window = "";
   a3_nosplash = "";
   a3_world = "";
@@ -37,6 +37,8 @@ int main( int argc, char* argv[])
   //init
   gtk_init( &argc, &argv);
   g_object_set(gtk_settings_get_default(), "gtk-application-prefer-dark-theme", TRUE, NULL);
+  gset = g_settings_new( "io.github.busquetsaguilopau.Asma.gschema.xml");
+  arma3_root = g_settings_get_string( gset, "game-path");
 
    ////////////
   // Window ///////////////////////////////////////////////////////////////////////////////////////

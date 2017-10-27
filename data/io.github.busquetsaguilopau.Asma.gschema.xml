@@ -1,0 +1,13 @@
+<schemalist>
+	<schema id="io.github.busquetsaguilopau.Asma" path="/io/github/busquetsaguilopau/Asma/">
+
+		<key name="game-path" type="s">
+			<default>
+				"~/.local/share/Steam/steamapps/common/Arma 3"
+			</default>
+			<description>
+				Path to Arma 3 directory.
+			</description>
+		</key>
+	</schema>
+</schemalist>

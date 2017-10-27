@@ -10,8 +10,6 @@
 #include <gtk-3.0/gtk/gtk.h>
 #include <dirent.h>
 
-#define ARMA3_DEFAULT_PATH "/.local/share/Steam/steamapps/common/Arma 3"
-
 #define DEFAULT_LAUNCH "steam -applaunch 107410"
 #define A3_MOD " -mod="
 #define A3_WINDOW " -window"
@@ -45,6 +43,7 @@ GtkWidget* item;
 GtkWidget* bar;
 GtkWidget* label;
 GtkFileChooserNative* native;
+GSettings* gset;
 GIcon* icon;
 
 GtkWidget* b_a3_window;

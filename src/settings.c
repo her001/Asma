@@ -16,6 +16,7 @@ void fnc_set_addonFolder()
   {
     chooser = GTK_FILE_CHOOSER( native);
     arma3_root = gtk_file_chooser_get_filename( chooser);
+    g_settings_set_string( gset, "game-path", arma3_root);
   }
 
   g_object_unref( native);

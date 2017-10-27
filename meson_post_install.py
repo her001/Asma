@@ -7,6 +7,10 @@ prefix = os.environ.get('MESON_INSTALL_PREFIX','/usr/local')
 datadir = os.path.join(prefix, 'share')
 
 if 'DESTDIR' not in os.environ:
+	print('Compiling gsettings schemas...')
+	subprocess.call(['glib-compile-schemas',
+		os.path.join(datadir, 'glib-2.0', 'schemas')])
+
 	print('Updating icon cache...')
 	subprocess.call(['gtk-update-icon-cache', '-qtf',
 		os.path.join(datadir, 'icons', 'hicolor')])
