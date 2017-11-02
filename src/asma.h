@@ -7,6 +7,8 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <string.h>
+#include <gio/gio.h>
+#include <glib.h>
 #include <gtk-3.0/gtk/gtk.h>
 #include <dirent.h>
 
@@ -25,8 +27,7 @@ GError* error;
 DIR *directory;
 struct dirent *properities;
 
-char* user_root;
-char* arma3_root;
+GFile *arma3_root;
 
 GtkWidget* widget;
 GtkWidget* assistant;
@@ -38,20 +39,11 @@ GtkWidget* button;
 GtkWidget* header;
 GtkWidget* image;
 GtkWidget* scrolled;
-GtkWidget* window;
 GtkWidget* item;
 GtkWidget* bar;
 GtkWidget* label;
 GtkFileChooserNative* native;
 GSettings* gset;
-GIcon* icon;
-
-GtkWidget* b_a3_window;
-GtkWidget* b_a3_nosplash;
-GtkWidget* b_a3_world;
-GtkWidget* b_a3_file_patching;
-GtkWidget* b_a3_debug;
-GtkWidget* b_a3_primus;
 
 char* a3_window;
 char* a3_nosplash;
@@ -59,8 +51,6 @@ char* a3_world;
 char* a3_file_patching;
 char* a3_debug;
 char* a3_primus;
-
-void call_refresh();
 
 #define _COMMON_H
 #endif
