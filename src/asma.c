@@ -8,7 +8,6 @@
 
 static GActionEntry app_entries[];
 
-
 static void about_activated();
 static void preferences_activated();
 static void quit_activated();
@@ -68,6 +67,13 @@ static void quit_activated(GSimpleAction *action,
 
 		list = next;
 	}
+}
+
+void browse_dir()
+{
+	GError *error = NULL;
+	if (!g_app_info_launch_default_for_uri(g_file_get_uri(arma3_root), NULL, &error))
+		g_warning("Opening folder failed: %s\n", error->message);
 }
 
 static void startup(GtkApplication *app)

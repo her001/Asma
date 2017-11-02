@@ -21,6 +21,8 @@
 #define A3_DEBUG " -showScriptErrors"
 #define A3_PRIMUS " MESA_GL_VERSION_OVERRIDE=4.1 MESA_GLSL_VERSION_OVERRIDE=410 \%command\%"
 
+void browse_dir();
+
 int i, ii;
 GError* error;
 

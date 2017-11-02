@@ -1,6 +1,6 @@
 project('asma', 'c')
 
-add_project_link_arguments('-rdynamic', language: 'c')
+add_project_link_arguments('-export-dynamic', language: 'c')
 
 subdir('src')
 subdir('data')
