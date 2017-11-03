@@ -73,7 +73,7 @@ void browse_dir()
 {
 	GError *error = NULL;
 	if (!g_app_info_launch_default_for_uri(g_file_get_uri(arma3_root), NULL, &error))
-		g_warning("Opening folder failed: %s\n", error->message);
+		g_warning("Browsing game folder failed: %s\n", error->message);
 }
 
 static void startup(GtkApplication *app)
