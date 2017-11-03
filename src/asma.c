@@ -70,7 +70,7 @@ static void quit_activated(GSimpleAction *action,
 	}
 }
 
-void refresh_button(GtkWidget *widget,
+void refresh(GtkWidget *widget,
 		    gpointer *user_data)
 {
 	mods_refresh(user_data);

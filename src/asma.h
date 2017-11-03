@@ -23,7 +23,7 @@
 
 void browse_dir();
 void check_dir();
-void refresh_button();
+void refresh();
 
 int i, ii;
 GError* error;
