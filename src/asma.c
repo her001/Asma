@@ -70,9 +70,10 @@ static void quit_activated(GSimpleAction *action,
 	}
 }
 
-void refresh_button()
+void refresh_button(GtkWidget *widget,
+		    gpointer *user_data)
 {
-	mods_refresh();
+	mods_refresh(user_data);
 }
 
 void browse_dir()
