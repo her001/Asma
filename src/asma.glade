@@ -144,6 +144,7 @@
     <property name="default_height">350</property>
     <property name="icon_name">asma</property>
     <property name="has_resize_grip">True</property>
+    <signal name="destroy" handler="destroy" swapped="no"/>
     <child>
       <object class="GtkStack" id="mods_stack">
         <property name="visible">True</property>

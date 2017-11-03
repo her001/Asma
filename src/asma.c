@@ -70,8 +70,19 @@ static void quit_activated(GSimpleAction *action,
 	}
 }
 
+void destroy(GtkWindow *window,
+	     gpointer *user_data)
+{
+	GActionMap *am;
+	GAction *action;
+
+	am = G_ACTION_MAP (gtk_window_get_application(window));
+	action = g_action_map_lookup_action(am, "quit");
+	g_action_activate(action, NULL);
+}
+
 void refresh(GtkWidget *widget,
-		    gpointer *user_data)
+	     gpointer *user_data)
 {
 	mods_refresh(user_data);
 }
