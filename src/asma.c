@@ -124,6 +124,7 @@ static void activate(GtkApplication *app)
 	window = GTK_WINDOW (gtk_builder_get_object(builder, "app_window"));
 	gtk_window_set_application(window, app);
 
+	g_object_set(gtk_settings_get_default(), "gtk-application-prefer-dark-theme", TRUE, NULL);
 	gtk_window_present(window);
 }
 
