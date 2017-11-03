@@ -137,8 +137,6 @@ int main(int argc, char* argv[])
 		path = g_strconcat(g_get_home_dir(), "/", path, NULL);
 	arma3_root = g_file_new_for_path(path);
 
-	mods_refresh();
-
 	app = gtk_application_new("io.github.busquetsaguilopau.Asma",
 		G_APPLICATION_FLAGS_NONE);
 	g_signal_connect(app, "startup", G_CALLBACK (startup), NULL);
