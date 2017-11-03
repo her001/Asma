@@ -5,15 +5,14 @@
 
 static GArray* get_local_mods()
 {
-	static GDir *dir;
+	GDir *dir;
 	GArray *mods;
 	gchar *entry = "";
 
 
 	mods = g_array_new(FALSE, FALSE, sizeof(gchar));
 
-	if (dir == NULL)
-		dir = g_dir_open(g_file_get_path(arma3_root), 0, NULL);
+	dir = g_dir_open(g_file_get_path(arma3_root), 0, NULL);
 	if (dir == NULL) {
 		check_dir();
 		return mods;
@@ -27,7 +26,7 @@ static GArray* get_local_mods()
 
 	g_array_sort(mods, (GCompareFunc) g_strcmp0);
 
-	g_dir_rewind(dir);
+	g_dir_close(dir);
 	return mods;
 }
 
