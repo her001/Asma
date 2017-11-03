@@ -4,6 +4,7 @@
 #include "asma.h"
 #include "addons.h"
 #include "errors.h"
+#include "mods.h"
 #include "settings.h"
 
 static GActionEntry app_entries[];
@@ -69,11 +70,25 @@ static void quit_activated(GSimpleAction *action,
 	}
 }
 
+void refresh_button()
+{
+	mods_refresh();
+}
+
 void browse_dir()
 {
 	GError *error = NULL;
 	if (!g_app_info_launch_default_for_uri(g_file_get_uri(arma3_root), NULL, &error))
 		g_warning("Browsing game folder failed: %s\n", error->message);
+}
+
+void check_dir()
+{
+	gchar *bin;
+
+	bin = g_strconcat(g_file_get_path(arma3_root), "/arma3", NULL);
+	if (g_find_program_in_path(bin) == NULL)
+		return; //TODO
 }
 
 static void startup(GtkApplication *app)
@@ -121,6 +136,8 @@ int main(int argc, char* argv[])
 	if (!g_path_is_absolute(path))
 		path = g_strconcat(g_get_home_dir(), "/", path, NULL);
 	arma3_root = g_file_new_for_path(path);
+
+	mods_refresh();
 
 	app = gtk_application_new("io.github.busquetsaguilopau.Asma",
 		G_APPLICATION_FLAGS_NONE);
