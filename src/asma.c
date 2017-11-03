@@ -44,7 +44,7 @@ static void preferences_activated(GSimpleAction *action,
 	GtkApplication *app = user_data;
 
 	builder = gtk_builder_new_from_resource(
-		"/io/github/busquetsaguilopau/Asma/asma.glade");
+		"/io/github/busquetsaguilopau/Asma/preferences.glade");
 	prefs = GTK_WINDOW (gtk_builder_get_object(builder, "prefs_window"));
 	gtk_window_set_application(prefs, app);
 
@@ -115,7 +115,7 @@ static void startup(GtkApplication *app)
 					app);
 
 	builder = gtk_builder_new_from_resource(
-		"/io/github/busquetsaguilopau/Asma/gmenu.ui");
+		"/io/github/busquetsaguilopau/Asma/appmenu.ui");
 	menu = G_MENU_MODEL (gtk_builder_get_object(builder, "appmenu"));
 
 	gtk_application_set_app_menu(app, menu);
