@@ -3,14 +3,19 @@
 #include "mods.h"
 #include "asma.h"
 
-static GArray* get_local_mods()
+static GtkWidget* create_list_item(gpointer item,
+                                   gpointer user_data)
+{
+	return GTK_WIDGET (item);
+}
+
+static GListStore* get_local_mods()
 {
 	GDir *dir;
-	GArray *mods;
+	GListStore *mods;
 	gchar *entry = "";
 
-
-	mods = g_array_new(FALSE, FALSE, sizeof(gpointer));
+	mods = g_list_store_new(g_type_from_name("GtkLabel"));
 
 	dir = g_dir_open(g_file_get_path(arma3_root), 0, NULL);
 	if (dir == NULL) {
@@ -23,13 +28,13 @@ static GArray* get_local_mods()
 			const gchar *abs_path;
 			abs_path = g_file_get_path(g_file_get_child(arma3_root, entry));
 			if (g_file_test(abs_path, G_FILE_TEST_IS_DIR)) {
-				g_array_append_val(mods, entry);
+				GtkWidget *label;
+				label = gtk_label_new(entry);
+				g_list_store_append(mods, (gpointer) label);
 			}
 		}
 		entry = g_strdup(g_dir_read_name(dir));
 	} while (entry != NULL);
-
-	g_array_sort(mods, (GCompareFunc) g_strcmp0);
 
 	g_dir_close(dir);
 	return mods;
@@ -38,30 +43,17 @@ static GArray* get_local_mods()
 void mods_refresh(GtkWidget *widget,
 		  gpointer user_data)
 {
-	GArray *local_mods;
+	GListModel *local_mods_store;
 	GtkWidget *view;
-	guint i;
+	GtkListBox *mod_list;
 
-	local_mods = get_local_mods();
-	i = local_mods->len;
+	local_mods_store = G_LIST_MODEL (get_local_mods());
+	view = gtk_stack_get_child_by_name(GTK_STACK (widget), "mods_view");
+	mod_list = GTK_LIST_BOX (gtk_bin_get_child(GTK_BIN (gtk_bin_get_child(GTK_BIN (view)))));
 
-	if (i == 0) {
-		view = gtk_stack_get_child_by_name(GTK_STACK (widget), "mods_empty");
-	} else {
-		view = gtk_stack_get_child_by_name(GTK_STACK (widget), "mods_view");
-		GtkListBox *mod_list;
-		mod_list = GTK_LIST_BOX (gtk_bin_get_child(GTK_BIN (gtk_bin_get_child(GTK_BIN (view)))));
-		for (; i>0; i--) {
-			GtkWidget *item;
-			const gchar *str;
-
-			str = g_array_index(local_mods, gpointer, i-1);
-			item = gtk_label_new(str);
-			gtk_widget_set_visible(item, TRUE);
-			gtk_list_box_prepend(mod_list, item);
-		}
-		g_array_free(local_mods, FALSE);
-	}
+	gtk_list_box_bind_model(mod_list, local_mods_store, create_list_item,
+		NULL, NULL);
 	gtk_widget_set_visible(view, TRUE);
 	gtk_stack_set_visible_child(GTK_STACK (widget), view);
 }
+
