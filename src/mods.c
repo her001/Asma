@@ -9,6 +9,15 @@ static GtkWidget* create_list_item(gpointer item,
 	return GTK_WIDGET (item);
 }
 
+static gint sort_alpha(const void *a,
+		       const void *b,
+		       void *user_data)
+{
+	const gchar *x = gtk_label_get_text(GTK_LABEL (a));
+	const gchar *y = gtk_label_get_text(GTK_LABEL (b));
+	return g_strcmp0((gchar *) x, (gchar *) y);
+}
+
 static GListStore* get_local_mods()
 {
 	GDir *dir;
@@ -36,6 +45,7 @@ static GListStore* get_local_mods()
 		entry = g_strdup(g_dir_read_name(dir));
 	} while (entry != NULL);
 
+	g_list_store_sort(mods, &sort_alpha, NULL);
 	g_dir_close(dir);
 	return mods;
 }
