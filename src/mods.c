@@ -6,6 +6,10 @@
 static GtkWidget* create_list_item(gpointer item,
                                    gpointer user_data)
 {
+	gtk_widget_set_margin_start(GTK_WIDGET (item), 12);
+	gtk_widget_set_margin_end(GTK_WIDGET (item), 12);
+	gtk_widget_set_margin_top(GTK_WIDGET (item), 6);
+	gtk_widget_set_margin_bottom(GTK_WIDGET (item), 6);
 	return GTK_WIDGET (item);
 }
 
