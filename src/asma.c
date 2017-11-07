@@ -39,15 +39,10 @@ static void preferences_activated(GSimpleAction *action,
 				  GVariant *parameter,
 				  gpointer user_data)
 {
-	GtkBuilder *builder;
 	GtkWindow *prefs;
 	GtkApplication *app = user_data;
 
-	builder = gtk_builder_new_from_resource(
-		"/io/github/busquetsaguilopau/Asma/preferences.glade");
-	prefs = GTK_WINDOW (gtk_builder_get_object(builder, "prefs_window"));
-	gtk_window_set_application(prefs, app);
-	gtk_window_set_transient_for(prefs, gtk_application_get_window_by_id(app, 0));
+	prefs = gtk_application_get_window_by_id(app, 2);
 
 	gtk_window_present(prefs);
 }
@@ -120,15 +115,20 @@ static void activate(GtkApplication *app)
 {
 	GtkBuilder *builder;
 	GtkWindow *window;
+	GtkWindow *prefs;
 
 	g_assert(GTK_IS_APPLICATION (app));
 
-	builder = gtk_builder_new_from_resource(
-		"/io/github/busquetsaguilopau/Asma/asma.glade");
+	builder = gtk_builder_new();
+	gtk_builder_add_from_resource(builder, "/io/github/busquetsaguilopau/Asma/asma.glade", NULL);
+	gtk_builder_add_from_resource(builder, "/io/github/busquetsaguilopau/Asma/preferences.glade", NULL);
 	gtk_builder_connect_signals(builder, NULL);
 
 	window = GTK_WINDOW (gtk_builder_get_object(builder, "app_window"));
 	gtk_window_set_application(window, app);
+	prefs = GTK_WINDOW (gtk_builder_get_object(builder, "prefs_window"));
+	gtk_window_set_application(prefs, app);
+	gtk_window_set_transient_for(prefs, gtk_application_get_window_by_id(app, 1));
 
 	g_object_set(gtk_settings_get_default(), "gtk-application-prefer-dark-theme", TRUE, NULL);
 	gtk_window_present(window);
