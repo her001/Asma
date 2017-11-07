@@ -47,6 +47,7 @@ static void preferences_activated(GSimpleAction *action,
 		"/io/github/busquetsaguilopau/Asma/preferences.glade");
 	prefs = GTK_WINDOW (gtk_builder_get_object(builder, "prefs_window"));
 	gtk_window_set_application(prefs, app);
+	gtk_window_set_transient_for(prefs, gtk_application_get_window_by_id(app, 0));
 
 	gtk_window_present(prefs);
 }
