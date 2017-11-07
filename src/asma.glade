@@ -163,7 +163,7 @@
                   <object class="GtkListBox" id="mods_list">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="selection_mode">multiple</property>
+                    <property name="selection_mode">none</property>
                   </object>
                 </child>
               </object>
