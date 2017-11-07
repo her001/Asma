@@ -5,7 +5,7 @@ deps = [dependency('gio-2.0'),
 	dependency('gmodule-export-2.0'),
 	dependency('gtk+-3.0')]
 
-src = ['asma.c', 'addons.c', 'errors.c', 'mods.c', 'settings.c']
+src = ['asma.c', 'addons.c', 'errors.c', 'mods.c', 'prefs.c', 'settings.c']
 src += gnome.compile_resources('asma-resources',
 	'asma.gresource.xml',
 	c_name: 'asma')

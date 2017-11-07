@@ -78,7 +78,6 @@
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="stock">gtk-open</property>
-                        <signal name="button-press-event" handler="choose_a3_dir" swapped="no"/>
                       </object>
                     </child>
                   </object>
@@ -118,7 +117,6 @@
                 <property name="can_focus">True</property>
                 <property name="receives_default">False</property>
                 <property name="draw_indicator">True</property>
-                <signal name="toggled" handler="a3_windowed_check_toggled" swapped="no"/>
               </object>
               <packing>
                 <property name="left_attach">1</property>
@@ -133,7 +131,6 @@
                 <property name="receives_default">False</property>
                 <property name="active">True</property>
                 <property name="draw_indicator">True</property>
-                <signal name="toggled" handler="a3_splash_check_toggled" swapped="no"/>
               </object>
               <packing>
                 <property name="left_attach">1</property>
@@ -148,7 +145,6 @@
                 <property name="receives_default">False</property>
                 <property name="active">True</property>
                 <property name="draw_indicator">True</property>
-                <signal name="toggled" handler="a3_world_check_toggled" swapped="no"/>
               </object>
               <packing>
                 <property name="left_attach">1</property>
@@ -174,7 +170,6 @@
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
                         <property name="draw_indicator">True</property>
-                        <signal name="toggled" handler="a3_script_err_check_toggled" swapped="no"/>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -189,7 +184,6 @@
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
                         <property name="draw_indicator">True</property>
-                        <signal name="toggled" handler="a3_file_patching_check_toggled" swapped="no"/>
                       </object>
                       <packing>
                         <property name="expand">False</property>

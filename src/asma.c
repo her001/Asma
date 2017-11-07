@@ -6,6 +6,7 @@
 #include "errors.h"
 #include "mods.h"
 #include "settings.h"
+#include "prefs.h"
 
 static GActionEntry app_entries[];
 
@@ -93,6 +94,30 @@ void check_dir()
 		return; //TODO
 }
 
+static void bind_settings(GtkBuilder *builder)
+{
+	g_settings_bind(gset_a3, "game-path",
+			gtk_builder_get_object(builder, "a3_dir_entry"),
+			"text", G_SETTINGS_BIND_DEFAULT);
+	g_settings_bind(gset_a3, "force-windowed",
+			gtk_builder_get_object(builder, "a3_windowed_check"),
+			"active", G_SETTINGS_BIND_DEFAULT);
+	g_settings_bind(gset_a3, "show-splash",
+			gtk_builder_get_object(builder, "a3_splash_check"),
+			"active", G_SETTINGS_BIND_DEFAULT);
+	g_settings_bind(gset_a3, "show-world",
+			gtk_builder_get_object(builder, "a3_world_check"),
+			"active", G_SETTINGS_BIND_DEFAULT);
+	g_settings_bind(gset_a3, "show-script-errors",
+			gtk_builder_get_object(builder, "a3_script_err_check"),
+			"active", G_SETTINGS_BIND_DEFAULT);
+	g_settings_bind(gset_a3, "file-patching",
+			gtk_builder_get_object(builder, "a3_file_patching_check"),
+			"active", G_SETTINGS_BIND_DEFAULT);
+	g_object_set(gtk_settings_get_default(), "gtk-application-prefer-dark-theme",
+		     g_settings_get_boolean(gset, "prefer-dark-theme"), NULL);
+}
+
 static void startup(GtkApplication *app)
 {
 	GtkBuilder *builder;
@@ -130,20 +155,23 @@ static void activate(GtkApplication *app)
 	gtk_window_set_application(prefs, app);
 	gtk_window_set_transient_for(prefs, gtk_application_get_window_by_id(app, 1));
 
-	g_object_set(gtk_settings_get_default(), "gtk-application-prefer-dark-theme", TRUE, NULL);
+	bind_settings(builder);
 	gtk_window_present(window);
+}
+
+static void init_settings()
+{
+	gset = g_settings_new("io.github.busquetsaguilopau.Asma");
+	gset_a3 = g_settings_new("io.github.busquetsaguilopau.Asma.arma3");
+	g_signal_connect(gset_a3, "changed::game-path", G_CALLBACK (update_root_file), NULL);
+	update_root_file(gset_a3, "game-path", NULL);
 }
 
 int main(int argc, char* argv[])
 {
-	gchar *path;
 	g_autoptr (GtkApplication) app;
 
-	gset = g_settings_new("io.github.busquetsaguilopau.Asma");
-	path = g_settings_get_string(gset, "game-path");
-	if (!g_path_is_absolute(path))
-		path = g_strconcat(g_get_home_dir(), "/", path, NULL);
-	arma3_root = g_file_new_for_path(path);
+	init_settings();
 
 	app = gtk_application_new("io.github.busquetsaguilopau.Asma",
 		G_APPLICATION_FLAGS_NONE);

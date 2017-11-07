@@ -47,6 +47,7 @@ GtkWidget* bar;
 GtkWidget* label;
 GtkFileChooserNative* native;
 GSettings* gset;
+GSettings* gset_a3;
 
 char* a3_window;
 char* a3_nosplash;
