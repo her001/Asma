@@ -81,12 +81,6 @@ void destroy(GtkWindow *window,
 	g_action_activate(action, NULL);
 }
 
-void refresh(GtkWidget *widget,
-	     gpointer *user_data)
-{
-	mods_refresh(user_data);
-}
-
 void browse_dir()
 {
 	GError *error = NULL;
