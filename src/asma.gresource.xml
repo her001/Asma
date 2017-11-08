@@ -3,7 +3,6 @@
 	<gresource prefix="/io/github/busquetsaguilopau/Asma">
 		<file>appmenu.ui</file>
 		<file>asma.glade</file>
-		<file>mods-placeholder.ui</file>
 		<file>preferences.glade</file>
 	</gresource>
 </gresources>

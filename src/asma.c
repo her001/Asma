@@ -130,7 +130,7 @@ static void activate(GtkApplication *app)
 
 	window = GTK_WINDOW (gtk_builder_get_object(builder, "app_window"));
 	gtk_window_set_application(window, app);
-	placeholder = GTK_WIDGET (gtk_builder_get_object(builder, "mods-placeholder"));
+	placeholder = GTK_WIDGET (gtk_builder_get_object(builder, "mods_placeholder"));
 	gtk_widget_set_visible(placeholder, TRUE);
 	gtk_list_box_set_placeholder(GTK_LIST_BOX (gtk_builder_get_object(builder, "mods_list")),
 				     placeholder);
@@ -155,7 +155,6 @@ static void init_builder()
 {
 	builder = gtk_builder_new();
 	gtk_builder_add_from_resource(builder, "/io/github/busquetsaguilopau/Asma/asma.glade", NULL);
-	gtk_builder_add_from_resource(builder, "/io/github/busquetsaguilopau/Asma/mods-placeholder.ui", NULL);
 	gtk_builder_add_from_resource(builder, "/io/github/busquetsaguilopau/Asma/preferences.glade", NULL);
 	gtk_builder_add_from_resource(builder, "/io/github/busquetsaguilopau/Asma/appmenu.ui", NULL);
 }
@@ -170,7 +169,6 @@ int main(int argc, char* argv[])
 		G_APPLICATION_FLAGS_NONE);
 	g_signal_connect(app, "startup", G_CALLBACK (startup), NULL);
 	g_signal_connect(app, "activate", G_CALLBACK (activate), NULL);
-
 
 	return g_application_run(G_APPLICATION (app), argc, argv);
 }
