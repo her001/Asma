@@ -147,8 +147,8 @@ static void init_settings()
 {
 	gset = g_settings_new("io.github.busquetsaguilopau.Asma");
 	gset_a3 = g_settings_new("io.github.busquetsaguilopau.Asma.arma3");
-	g_signal_connect(gset_a3, "changed::game-path", G_CALLBACK (update_root_file), NULL);
-	update_root_file(gset_a3, "game-path", NULL);
+	g_signal_connect(gset_a3, "changed::game-path", G_CALLBACK (update_and_check_dir), NULL);
+	update_root_dir(gset_a3, "game-path", NULL);
 }
 
 static void init_builder()

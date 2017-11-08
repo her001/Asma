@@ -2,7 +2,7 @@
 #include "mods.h"
 #include "prefs.h"
 
-void update_root_file(GSettings *settings,
+void update_root_dir(GSettings *settings,
 		      gchar *key,
 		      gpointer user_data)
 {
@@ -19,11 +19,18 @@ void check_dir()
 {
 	gchar *bin;
 
-	g_settings_sync();
 	bin = g_file_get_path(g_file_get_child(arma3_root, "arma3"));
 	if (g_find_program_in_path(bin) == NULL) {
 		//TODO
 	}
 	mods_refresh();
+}
+
+void update_and_check_dir(GSettings *settings,
+			  gchar *key,
+			  gpointer user_data)
+{
+	update_root_dir(settings, key, user_data);
+	check_dir();
 }
 
