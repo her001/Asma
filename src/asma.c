@@ -48,17 +48,12 @@ static void quit_activated(GSimpleAction *action,
 			   gpointer user_data)
 {
 	GtkApplication *app = user_data;
-	GtkWidget *win;
-	GList *list, *next;
+	GList *list;
 
 	list = gtk_application_get_windows(app);
 	while (list) {
-		win = list->data;
-		next = list->next;
-
-		gtk_widget_destroy(win);
-
-		list = next;
+		gtk_widget_destroy(list->data);
+		list = list->next;
 	}
 }
 
