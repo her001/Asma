@@ -24,5 +24,6 @@ void check_dir()
 	if (g_find_program_in_path(bin) == NULL) {
 		//TODO
 	}
+	mods_refresh();
 }
 

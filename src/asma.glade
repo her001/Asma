@@ -174,16 +174,17 @@
     <property name="has_resize_grip">True</property>
     <signal name="destroy" handler="destroy" swapped="no"/>
     <child>
-      <object class="GtkStack" id="mods_stack">
+      <object class="GtkBox" id="app_box">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="transition_type">crossfade</property>
-        <signal name="map" handler="mods_refresh" swapped="no"/>
+        <property name="orientation">vertical</property>
         <child>
           <object class="GtkScrolledWindow" id="mods_view">
+            <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="hscrollbar_policy">never</property>
             <property name="shadow_type">in</property>
+            <signal name="map" handler="mods_refresh" swapped="no"/>
             <child>
               <object class="GtkViewport">
                 <property name="visible">True</property>
@@ -203,8 +204,10 @@
             </child>
           </object>
           <packing>
-            <property name="name">mods_view</property>
-            <property name="title" translatable="yes">mods_view</property>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
+            <property name="pack_type">end</property>
+            <property name="position">0</property>
           </packing>
         </child>
       </object>
@@ -243,7 +246,7 @@
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
-                <signal name="clicked" handler="mods_refresh" object="mods_stack" swapped="yes"/>
+                <signal name="clicked" handler="mods_refresh" swapped="no"/>
                 <child>
                   <object class="GtkImage">
                     <property name="visible">True</property>

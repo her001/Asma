@@ -46,7 +46,6 @@ static GListStore* get_local_mods()
 
 	dir = g_dir_open(g_file_get_path(arma3_root), 0, NULL);
 	if (dir == NULL) {
-		check_dir();
 		return mods;
 	}
 
@@ -72,16 +71,12 @@ void mods_refresh(GtkWidget *widget,
 		  gpointer user_data)
 {
 	GListModel *local_mods_store;
-	GtkWidget *view;
-	GtkListBox *mod_list;
+	GtkListBox *mods_list;
 
 	local_mods_store = G_LIST_MODEL (get_local_mods());
-	view = gtk_stack_get_child_by_name(GTK_STACK (widget), "mods_view");
-	mod_list = GTK_LIST_BOX (gtk_bin_get_child(GTK_BIN (gtk_bin_get_child(GTK_BIN (view)))));
+	mods_list = GTK_LIST_BOX (gtk_builder_get_object(builder, "mods_list"));
 
-	gtk_list_box_bind_model(mod_list, local_mods_store, create_list_item,
+	gtk_list_box_bind_model(mods_list, local_mods_store, create_list_item,
 		NULL, NULL);
-	gtk_widget_set_visible(view, TRUE);
-	gtk_stack_set_visible_child(GTK_STACK (widget), view);
 }
 

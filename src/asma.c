@@ -10,6 +10,7 @@ static GActionEntry app_entries[];
 static void about_activated();
 static void preferences_activated();
 static void quit_activated();
+static void init_builder();
 
 static GActionEntry app_entries[3] = {
 	{"about", about_activated, NULL, NULL, NULL},
@@ -21,12 +22,9 @@ static void about_activated(GSimpleAction *action,
 			    GVariant *parameter,
 			    gpointer user_data)
 {
-	GtkBuilder *builder;
 	GtkWindow *dialog;
 	GtkApplication *app = user_data;
 
-	builder = gtk_builder_new_from_resource(
-		"/io/github/busquetsaguilopau/Asma/asma.glade");
 	dialog = GTK_WINDOW (gtk_builder_get_object(builder, "about_dialog"));
 	gtk_window_set_application(dialog, app);
 
@@ -82,16 +80,7 @@ void browse_dir()
 		g_warning("Browsing game folder failed: %s\n", error->message);
 }
 
-void check_dir()
-{
-	gchar *bin;
-
-	bin = g_strconcat(g_file_get_path(arma3_root), "/arma3", NULL);
-	if (g_find_program_in_path(bin) == NULL)
-		return; //TODO
-}
-
-static void bind_settings(GtkBuilder *builder)
+static void bind_settings()
 {
 	g_settings_bind(gset_a3, "game-path",
 			gtk_builder_get_object(builder, "a3_dir_entry"),
@@ -117,17 +106,15 @@ static void bind_settings(GtkBuilder *builder)
 
 static void startup(GtkApplication *app)
 {
-	GtkBuilder *builder;
 	GMenuModel *menu;
 
 	g_assert(GTK_IS_APPLICATION (app));
 
+	init_builder();
 	g_action_map_add_action_entries(G_ACTION_MAP (app),
 					app_entries, G_N_ELEMENTS (app_entries),
 					app);
 
-	builder = gtk_builder_new_from_resource(
-		"/io/github/busquetsaguilopau/Asma/appmenu.ui");
 	menu = G_MENU_MODEL (gtk_builder_get_object(builder, "appmenu"));
 
 	gtk_application_set_app_menu(app, menu);
@@ -135,18 +122,11 @@ static void startup(GtkApplication *app)
 
 static void activate(GtkApplication *app)
 {
-	GtkBuilder *builder;
 	GtkWindow *window;
 	GtkWindow *prefs;
 	GtkWidget *placeholder;
 
 	g_assert(GTK_IS_APPLICATION (app));
-
-	builder = gtk_builder_new();
-	gtk_builder_add_from_resource(builder, "/io/github/busquetsaguilopau/Asma/asma.glade", NULL);
-	gtk_builder_add_from_resource(builder, "/io/github/busquetsaguilopau/Asma/mods-placeholder.ui", NULL);
-	gtk_builder_add_from_resource(builder, "/io/github/busquetsaguilopau/Asma/preferences.glade", NULL);
-	gtk_builder_connect_signals(builder, NULL);
 
 	window = GTK_WINDOW (gtk_builder_get_object(builder, "app_window"));
 	gtk_window_set_application(window, app);
@@ -158,7 +138,8 @@ static void activate(GtkApplication *app)
 	gtk_window_set_application(prefs, app);
 	gtk_window_set_transient_for(prefs, gtk_application_get_window_by_id(app, 1));
 
-	bind_settings(builder);
+	gtk_builder_connect_signals(builder, NULL);
+	bind_settings();
 	gtk_window_present(window);
 }
 
@@ -168,6 +149,15 @@ static void init_settings()
 	gset_a3 = g_settings_new("io.github.busquetsaguilopau.Asma.arma3");
 	g_signal_connect(gset_a3, "changed::game-path", G_CALLBACK (update_root_file), NULL);
 	update_root_file(gset_a3, "game-path", NULL);
+}
+
+static void init_builder()
+{
+	builder = gtk_builder_new();
+	gtk_builder_add_from_resource(builder, "/io/github/busquetsaguilopau/Asma/asma.glade", NULL);
+	gtk_builder_add_from_resource(builder, "/io/github/busquetsaguilopau/Asma/mods-placeholder.ui", NULL);
+	gtk_builder_add_from_resource(builder, "/io/github/busquetsaguilopau/Asma/preferences.glade", NULL);
+	gtk_builder_add_from_resource(builder, "/io/github/busquetsaguilopau/Asma/appmenu.ui", NULL);
 }
 
 int main(int argc, char* argv[])
@@ -181,5 +171,7 @@ int main(int argc, char* argv[])
 	g_signal_connect(app, "startup", G_CALLBACK (startup), NULL);
 	g_signal_connect(app, "activate", G_CALLBACK (activate), NULL);
 
+
 	return g_application_run(G_APPLICATION (app), argc, argv);
 }
+
