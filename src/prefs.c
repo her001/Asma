@@ -58,3 +58,4 @@ void select_a3_folder(GtkButton *button,
 
 	g_object_unref(native);
 }
+

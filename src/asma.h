@@ -23,3 +23,4 @@ GSettings *gset_a3;
 
 #define _COMMON_H
 #endif
+

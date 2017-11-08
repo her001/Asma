@@ -4,3 +4,4 @@ install_data('asma.png',
 	install_dir: 'share/icons/hicolor/256x256/apps')
 install_data('io.github.busquetsaguilopau.Asma.gschema.xml',
 	install_dir: join_paths(get_option('datadir'), 'glib-2.0', 'schemas'))
+

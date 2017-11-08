@@ -18,3 +18,4 @@ if 'DESTDIR' not in os.environ:
 	print('Updating desktop database...')
 	subprocess.call(['update-desktop-database', '-q',
 		os.path.join(datadir, 'applications')])
+
