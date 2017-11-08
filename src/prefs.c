@@ -34,3 +34,27 @@ void update_and_check_dir(GSettings *settings,
 	check_dir();
 }
 
+void select_a3_folder(GtkButton *button,
+		      gpointer user_data)
+{
+	GtkFileChooserNative *native;
+	GtkApplication *app;
+	GtkFileChooserAction action = GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER;
+	gint res;
+	app = gtk_builder_get_application(builder);
+	native = gtk_file_chooser_native_new("Select Arma 3 Folder",
+					     gtk_application_get_active_window(app),
+					     action,
+					     ("_Open"),
+					     ("_Cancel"));
+	res = gtk_native_dialog_run(GTK_NATIVE_DIALOG (native));
+	if (res == GTK_RESPONSE_ACCEPT) {
+		GObject *e;
+		gchar *path;
+		e = gtk_builder_get_object(builder, "a3_dir_entry");
+		path = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER (native));
+		gtk_entry_set_text(GTK_ENTRY (e), path);
+	}
+
+	g_object_unref(native);
+}
