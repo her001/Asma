@@ -1,7 +1,8 @@
 // File: "mods.c"
 
-#include "mods.h"
 #include "asma.h"
+#include "mods.h"
+#include "prefs.h"
 
 static void toggle_image(GtkButton *button,
                          gpointer   user_data)
