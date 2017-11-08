@@ -1,5 +1,5 @@
-#import "prefs.h"
-#import "asma.h"
+#include "prefs.h"
+#include "asma.h"
 
 void update_root_file(GSettings *settings,
 		      gchar *key,
