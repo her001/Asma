@@ -1,262 +1,170 @@
 // File: "asma.c"
 // Author: Pau Busquets Aguiló
+
 #include "asma.h"
-#include "addons.h"
-#include "errors.h"
-#include "settings.h"
+#include "mods.h"
+#include "prefs.h"
 
+static GActionEntry app_entries[];
 
-static void call_quit();
-static void call_launch();
-static void call_open_folder();
-static void set_a3_window( GtkToggleButton*);
-static void set_a3_nosplash( GtkToggleButton*);
-static void set_a3_world( GtkToggleButton*);
-static void set_a3_file_patching( GtkToggleButton*);
-static void set_a3_debug( GtkToggleButton*);
-static void set_a3_primus( GtkToggleButton*);
+static void about_activated();
+static void preferences_activated();
+static void quit_activated();
+static void init_builder();
 
-  /********/
- /* MAIN */
-/*************************************************************************************************/
-int main( int argc, char* argv[])
+static GActionEntry app_entries[3] = {
+	{"about", about_activated, NULL, NULL, NULL},
+	{"preferences", preferences_activated, NULL, NULL, NULL},
+	{"quit", quit_activated, NULL, NULL, NULL},
+};
+
+static void about_activated(GSimpleAction *action,
+			    GVariant *parameter,
+			    gpointer user_data)
 {
-  //config
+	GtkWindow *dialog;
+	GtkApplication *app = user_data;
 
+	dialog = GTK_WINDOW (gtk_builder_get_object(builder, "about_dialog"));
+	gtk_window_set_application(dialog, app);
 
-  //def constants
-  user_root = getenv( "HOME");
-  arma3_root = "";
-  a3_window = "";
-  a3_nosplash = "";
-  a3_world = "";
-  a3_file_patching = "";
-  a3_debug = "";
-  a3_primus = "";
-
-  //init
-  gtk_init( &argc, &argv);
-  g_object_set(gtk_settings_get_default(), "gtk-application-prefer-dark-theme", TRUE, NULL);
-  gset = g_settings_new( "io.github.busquetsaguilopau.Asma");
-  arma3_root = g_settings_get_string( gset, "game-path");
-  if( arma3_root[0] != '/')
-  {
-      arma3_root = g_strconcat( user_root, "/", arma3_root, NULL);
-  }
-
-   ////////////
-  // Window ///////////////////////////////////////////////////////////////////////////////////////
-  window = gtk_window_new( GTK_WINDOW_TOPLEVEL);
-  gtk_window_set_icon_name( GTK_WINDOW( window), "asma");
-  gtk_window_set_title( GTK_WINDOW( window), "asma");
-  g_signal_connect( G_OBJECT( window), "destroy", G_CALLBACK( call_quit), NULL);
-  gtk_window_set_default_size( GTK_WINDOW( window), 600, 200);
-
-   ////////////
-  // Header ///////////////////////////////////////////////////////////////////////////////////////
-  header = gtk_header_bar_new();
-  gtk_header_bar_set_show_close_button( GTK_HEADER_BAR( header), TRUE);
-
-  hBox = gtk_box_new( GTK_ORIENTATION_HORIZONTAL, 0);
-  gtk_style_context_add_class( gtk_widget_get_style_context( hBox), "linked");
-  gtk_header_bar_pack_start( GTK_HEADER_BAR( header), hBox);
-
-  gtk_header_bar_set_title( GTK_HEADER_BAR( header), "asma");
-  gtk_header_bar_set_subtitle( GTK_HEADER_BAR( header), "Simple Arma 3 Launcher");
-
-  // play button
-  button = gtk_button_new();
-  g_signal_connect( G_OBJECT( button), "clicked", G_CALLBACK( call_launch), NULL);
-  icon = g_themed_icon_new( "media-playback-start");
-  image = gtk_image_new_from_gicon( icon, GTK_ICON_SIZE_BUTTON);
-  g_object_unref( icon);
-  gtk_container_add( GTK_CONTAINER ( button), image);
-  gtk_container_add( GTK_CONTAINER ( hBox), button);
-
-  // refresh button
-  button = gtk_button_new();
-  g_signal_connect( G_OBJECT( button), "clicked", G_CALLBACK( call_refresh), NULL);
-  icon = g_themed_icon_new( "view-refresh");
-  image = gtk_image_new_from_gicon( icon, GTK_ICON_SIZE_BUTTON);
-  g_object_unref( icon);
-  gtk_container_add( GTK_CONTAINER( button), image);
-  gtk_container_add( GTK_CONTAINER( hBox), button);
-
-  // open arma 3 folder button
-  button = gtk_button_new();
-  g_signal_connect( G_OBJECT( button), "clicked", G_CALLBACK( call_open_folder), NULL);
-  icon = g_themed_icon_new( "folder");
-  image = gtk_image_new_from_gicon( icon, GTK_ICON_SIZE_BUTTON);
-  g_object_unref( icon);
-  gtk_container_add( GTK_CONTAINER( button), image);
-  gtk_container_add( GTK_CONTAINER( hBox), button);
-
-  // Context Frame
-  rootBox = gtk_box_new( GTK_ORIENTATION_VERTICAL, 0);
-  gtk_container_add( GTK_CONTAINER( window), rootBox);
-
-  hBox = gtk_box_new( GTK_ORIENTATION_HORIZONTAL, 0);
-  gtk_box_pack_start( GTK_BOX( rootBox), hBox, TRUE, TRUE, 0);
-
-   //////////////////
-  // Settings Box /////////////////////////////////////////////////////////////////////////////////
-  b_a3_window = gtk_toggle_button_new_with_label( "Windowed");
-  g_signal_connect( G_OBJECT( b_a3_window), "toggled", G_CALLBACK( set_a3_window), NULL);
-  b_a3_nosplash = gtk_toggle_button_new_with_label( "noSplash");
-  g_signal_connect( G_OBJECT( b_a3_nosplash), "toggled", G_CALLBACK( set_a3_nosplash), NULL);
-  b_a3_world = gtk_toggle_button_new_with_label( "noWorld");
-  g_signal_connect( G_OBJECT( b_a3_world), "toggled", G_CALLBACK( set_a3_world), NULL);
-  b_a3_file_patching = gtk_toggle_button_new_with_label( "FilePatching");
-  g_signal_connect( G_OBJECT( b_a3_file_patching), "toggled", G_CALLBACK( set_a3_file_patching), NULL);
-  b_a3_debug = gtk_toggle_button_new_with_label( "Debug");
-  g_signal_connect( G_OBJECT( b_a3_debug), "toggled", G_CALLBACK( set_a3_debug), NULL);
-  b_a3_primus = gtk_toggle_button_new_with_label( "Primus");
-  g_signal_connect( G_OBJECT( b_a3_primus), "toggled", G_CALLBACK( set_a3_primus), NULL);
-
-  vBox = gtk_box_new( GTK_ORIENTATION_VERTICAL, 0);
-  gtk_box_pack_end( GTK_BOX( hBox), vBox, FALSE, FALSE, 1);
-  gtk_container_add( GTK_CONTAINER( vBox), b_a3_window);
-  gtk_container_add( GTK_CONTAINER( vBox), b_a3_nosplash);
-  gtk_container_add( GTK_CONTAINER( vBox), b_a3_world);
-  gtk_container_add( GTK_CONTAINER( vBox), b_a3_file_patching);
-  gtk_container_add( GTK_CONTAINER( vBox), b_a3_debug);
-  gtk_container_add( GTK_CONTAINER( vBox), b_a3_primus);
-
-   ////////////////
-  // Addons Box ///////////////////////////////////////////////////////////////////////////////////
-  scrolled = gtk_scrolled_window_new( NULL, NULL);
-  addonBox = gtk_box_new( GTK_ORIENTATION_VERTICAL, 0);
-
-  gtk_box_pack_start( GTK_BOX( hBox), scrolled, TRUE, TRUE, 1);
-  gtk_scrolled_window_set_policy( GTK_SCROLLED_WINDOW( scrolled), GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
-  gtk_container_add( GTK_CONTAINER( scrolled), addonBox);
-
-
-   //////////////////////////////////
-  // Container structure and loop /////////////////////////////////////////////////////////////////
-  call_refresh();
-  gtk_window_set_titlebar( GTK_WINDOW( window), header);
-  gtk_widget_show_all( window);
-
-  gtk_main();
-  return 0;
+	gtk_window_present(dialog);
 }
 
-
-   /**********/
-  /* CALLS */
- /************************************************************************************************/
-
-// quit call
-static void call_quit()
+static void preferences_activated(GSimpleAction *action,
+				  GVariant *parameter,
+				  gpointer user_data)
 {
-  gtk_main_quit();
+	GtkWindow *prefs;
+	GtkApplication *app = user_data;
+
+	prefs = gtk_application_get_window_by_id(app, 2);
+
+	gtk_window_present(prefs);
 }
 
-// launch call
-static void call_launch()
+static void quit_activated(GSimpleAction *action,
+			   GVariant *parameter,
+			   gpointer user_data)
 {
-    g_spawn_command_line_async(
-        g_strconcat(
-            DEFAULT_LAUNCH, a3_primus,
-            a3_window, a3_nosplash, a3_world, a3_file_patching, a3_debug,
-            A3_MOD, active_addons_command,
-        NULL),
-    NULL);
+	GtkApplication *app = user_data;
+	GList *list;
 
-    puts(
-        g_strconcat(
-            DEFAULT_LAUNCH, a3_primus,
-            a3_window, a3_nosplash, a3_world, a3_file_patching, a3_debug,
-            A3_MOD, active_addons_command,
-        NULL)
-    );
+	list = gtk_application_get_windows(app);
+	while (list) {
+		gtk_widget_destroy(list->data);
+		list = list->next;
+	}
 }
 
-// refresh call
-void call_refresh()
+void destroy(GtkWindow *window,
+	     gpointer *user_data)
 {
-    active_addons_command = "";
-    i = 0;
-    while( i != 50)
-    {
-        active_addons[i] = NULL;
-        i++;
-    }
+	GActionMap *am;
+	GAction *action;
 
-    i = 0;
-    while( i != 50)
-    {
-        if( current_addons[i] == NULL)
-            break;
-        gtk_widget_destroy( GTK_WIDGET( current_addons[i]));
-        i++;
-    }
-
-    i = 0;
-    directory = opendir( arma3_root);
-    if( directory != NULL)
-    {
-      while( (properities = readdir( directory)))
-      {
-          if( strncmp( "@", properities->d_name, strlen( "@")) == 0)
-          {
-              current_addons[i] = fnc_create_addon( properities->d_name);
-              i ++;
-          }
-      }
-      ( void)closedir( directory);
-    }
-    else
-      fnc_error_nofolder();
+	am = G_ACTION_MAP (gtk_window_get_application(window));
+	action = g_action_map_lookup_action(am, "quit");
+	g_action_activate(action, NULL);
 }
 
-// open folder call
-static void call_open_folder()
+void browse_dir()
 {
-    error = NULL;
-    if( !g_app_info_launch_default_for_uri( g_strconcat( "file://", arma3_root, NULL), NULL, &error))
-        g_warning( "Opening folder failed: %s\n", error->message);
+	GError *error = NULL;
+	if (!g_app_info_launch_default_for_uri(g_file_get_uri(arma3_root), NULL, &error))
+		g_warning("Browsing game folder failed: %s\n", error->message);
 }
 
-// set_a3_window call
-static void set_a3_window( GtkToggleButton* _button)
+static void bind_settings()
 {
-    if( gtk_toggle_button_get_active( _button)) { a3_window = A3_WINDOW;}
-    else{ a3_window = "";}
+	g_settings_bind(gset_a3, "game-path",
+			gtk_builder_get_object(builder, "a3_dir_entry"),
+			"text", G_SETTINGS_BIND_DEFAULT);
+	g_settings_bind(gset_a3, "force-windowed",
+			gtk_builder_get_object(builder, "a3_windowed_check"),
+			"active", G_SETTINGS_BIND_DEFAULT);
+	g_settings_bind(gset_a3, "show-splash",
+			gtk_builder_get_object(builder, "a3_splash_check"),
+			"active", G_SETTINGS_BIND_DEFAULT);
+	g_settings_bind(gset_a3, "show-world",
+			gtk_builder_get_object(builder, "a3_world_check"),
+			"active", G_SETTINGS_BIND_DEFAULT);
+	g_settings_bind(gset_a3, "show-script-errors",
+			gtk_builder_get_object(builder, "a3_script_err_check"),
+			"active", G_SETTINGS_BIND_DEFAULT);
+	g_settings_bind(gset_a3, "file-patching",
+			gtk_builder_get_object(builder, "a3_file_patching_check"),
+			"active", G_SETTINGS_BIND_DEFAULT);
+	g_object_set(gtk_settings_get_default(), "gtk-application-prefer-dark-theme",
+		     g_settings_get_boolean(gset, "prefer-dark-theme"), NULL);
 }
 
-//set_a3_nosplash
-static void set_a3_nosplash( GtkToggleButton* _button)
+static void startup(GtkApplication *app)
 {
-    if( gtk_toggle_button_get_active( _button)) { a3_nosplash = A3_NOSPLASH;}
-    else{ a3_nosplash = "";}
+	GMenuModel *menu;
+
+	g_assert(GTK_IS_APPLICATION (app));
+
+	init_builder();
+	g_action_map_add_action_entries(G_ACTION_MAP (app),
+					app_entries, G_N_ELEMENTS (app_entries),
+					app);
+
+	menu = G_MENU_MODEL (gtk_builder_get_object(builder, "appmenu"));
+
+	gtk_application_set_app_menu(app, menu);
 }
 
-//set_a3_world
-static void set_a3_world( GtkToggleButton* _button)
+static void activate(GtkApplication *app)
 {
-    if( gtk_toggle_button_get_active( _button)) { a3_world = A3_WORLD;}
-    else{ a3_world = "";}
+	GtkWindow *window;
+	GtkWindow *prefs;
+	GtkWidget *placeholder;
+
+	g_assert(GTK_IS_APPLICATION (app));
+
+	window = GTK_WINDOW (gtk_builder_get_object(builder, "app_window"));
+	gtk_window_set_application(window, app);
+	placeholder = GTK_WIDGET (gtk_builder_get_object(builder, "mods_placeholder"));
+	gtk_widget_set_visible(placeholder, TRUE);
+	gtk_list_box_set_placeholder(GTK_LIST_BOX (gtk_builder_get_object(builder, "mods_list")),
+				     placeholder);
+	prefs = GTK_WINDOW (gtk_builder_get_object(builder, "prefs_window"));
+	gtk_window_set_application(prefs, app);
+	gtk_window_set_transient_for(prefs, gtk_application_get_window_by_id(app, 1));
+
+	gtk_builder_connect_signals(builder, NULL);
+	bind_settings();
+	gtk_window_present(window);
 }
 
-//set_a3_file_patching
-static void set_a3_file_patching( GtkToggleButton* _button)
+static void init_settings()
 {
-    if( gtk_toggle_button_get_active( _button)) { a3_file_patching = A3_FILE_PATCHING;}
-    else{ a3_file_patching = "";}
+	gset = g_settings_new("io.github.busquetsaguilopau.Asma");
+	gset_a3 = g_settings_new("io.github.busquetsaguilopau.Asma.arma3");
+	g_signal_connect(gset_a3, "changed::game-path", G_CALLBACK (update_and_check_dir), NULL);
+	update_root_dir(gset_a3, "game-path", NULL);
 }
 
-//set_a3_debug
-static void set_a3_debug( GtkToggleButton* _button)
+static void init_builder()
 {
-    if( gtk_toggle_button_get_active( _button)) { a3_debug = A3_DEBUG;}
-    else{ a3_debug = "";}
+	builder = gtk_builder_new();
+	gtk_builder_add_from_resource(builder, "/io/github/busquetsaguilopau/Asma/asma.glade", NULL);
+	gtk_builder_add_from_resource(builder, "/io/github/busquetsaguilopau/Asma/preferences.glade", NULL);
+	gtk_builder_add_from_resource(builder, "/io/github/busquetsaguilopau/Asma/appmenu.ui", NULL);
 }
 
-//set_a3_primus
-static void set_a3_primus( GtkToggleButton* _button)
+int main(int argc, char* argv[])
 {
-    if( gtk_toggle_button_get_active( _button)) { a3_primus = A3_PRIMUS;}
-    else{ a3_primus = "";}
+	g_autoptr (GtkApplication) app;
+
+	init_settings();
+
+	app = gtk_application_new("io.github.busquetsaguilopau.Asma",
+		G_APPLICATION_FLAGS_NONE);
+	g_signal_connect(app, "startup", G_CALLBACK (startup), NULL);
+	g_signal_connect(app, "activate", G_CALLBACK (activate), NULL);
+
+	return g_application_run(G_APPLICATION (app), argc, argv);
 }
+

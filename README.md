@@ -1,45 +1,40 @@
-# ASMA
-Simple Arma 3 launcher for Linux
+# [Asma](https://github.com/her001/asma)
+
+Copyright © 2016, 2017 Andrew "HER0" Conrad
+
+Copyright © 2016 Pau Busquets Aguiló
+
+**Asma** is a simple Arma 3 launcher for Linux.
 
 ## Requirements
-Must have GTK+ 3 and have addons installed in (or linked to) Arma 3 folder
+
+* [Arma 3](http://store.steampowered.com/app/107410) (obviously)
+* [GTK+ 3](https://www.gtk.org/download/index.php)
+* [Meson](https://github.com/mesonbuild/meson/releases) and [Ninja](https://github.com/ninja-build/ninja/releases) (for building and installing)
+
+Any mods should be in the Arma 3 folder (linking works) and start with the "@"
+character.
 
 ## Installation
 
-Install GTK+ 3.
+First, clone the project and switch to the directory:
 
-```console
-$ sudo apt-get install libgtk-3-dev
+```
+git clone https://github.com/her001/asma.git
+cd asma
 ```
 
-Clone the repo OR [download it](https://github.com/busquetsaguilopau/asma/archive/master.zip).
+Next, configure and build:
 
-```console
-$ git clone git@github.com:busquetsaguilopau/asma.git
+```
+meson builddir
+cd builddir
+ninja
 ```
 
-Open the terminal and go to `asma/src` folder.
+Finally, install (as root):
 
-```console
-$ cd asma/src
-~/asma/src$
+```
+ninja install
 ```
 
-Compile
-
-```console
-~/asma/src$ cmake .
-~/asma/src$ make
-```
-
-or compile like this:
-
-```console
-~/asma/src$ gcc asma.h asma.c addons.h addons.c errors.h errors.c settings.h settings.c  $(pkg-config --cflags --libs gtk+-3.0) -o asma
-```
-
-Use ASAM:
-
-```console
-~/asma/src$ ./asam
-```

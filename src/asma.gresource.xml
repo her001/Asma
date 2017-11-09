@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gresources>
+	<gresource prefix="/io/github/busquetsaguilopau/Asma">
+		<file>appmenu.ui</file>
+		<file>asma.glade</file>
+		<file>preferences.glade</file>
+	</gresource>
+</gresources>
+

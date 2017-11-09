@@ -1,15 +1,59 @@
 <schemalist>
 	<schema id="io.github.busquetsaguilopau.Asma" path="/io/github/busquetsaguilopau/Asma/">
-
-		<key name="game-path" type="s">
-			<default>
-				".local/share/Steam/steamapps/common/Arma 3"
-			</default>
+		<key name="prefer-dark-theme" type="b">
+			<default>true</default>
+			<summary>Prefer dark theme</summary>
 			<description>
-				Path to Arma 3 directory.
-
+				Use the dark variant of the GTK theme, if available.
+			</description>
+		</key>
+	</schema>
+	<schema id="io.github.busquetsaguilopau.Asma.arma3" path="/io/github/busquetsaguilopau/Asma/arma3/">
+		<key name="game-path" type="s">
+			<default>".local/share/Steam/steamapps/common/Arma 3"</default>
+			<summary>Path to Arma 3 directory</summary>
+			<description>
 				If the path is relative, it will be appended to the user's home directory.
+			</description>
+		</key>
+		<key name="force-windowed" type="b">
+			<default>false</default>
+			<summary>Launch in windowed mode</summary>
+			<description>
+				This overrides the in-game setting for windowed or fullscreen mode.
+			</description>
+		</key>
+		<key name="show-splash" type="b">
+			<default>true</default>
+			<summary>Show the splash screens</summary>
+			<description>
+				Disable for (slightly) faster startup times.
+			</description>
+		</key>
+		<key name="show-world" type="b">
+			<default>true</default>
+			<summary>Show world in the background of the main menu</summary>
+			<description>
+				When enabled, the main menu has the default terrain visible in the background.
+
+				Disable for faster startup times.
+			</description>
+		</key>
+		<key name="show-script-errors" type="b">
+			<default>false</default>
+			<summary>Show script errors on-screen</summary>
+			<description>
+				NOTE: In the Eden Editor, script errors are always shown, even if this is disabled.
+			</description>
+		</key>
+		<key name="file-patching" type="b">
+			<default>false</default>
+			<summary>Allow game to load unpacked data</summary>
+			<description>
+				Modifications do not need to be packed into a PBO file.
+				Recommended only for development purposes.
 			</description>
 		</key>
 	</schema>
 </schemalist>
+

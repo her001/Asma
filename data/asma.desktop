@@ -1,8 +1,9 @@
 [Desktop Entry]
 Type=Application
-Name=ASMA
+Name=Asma
 Comment=Simple Arma 3 launcher
 Icon=asma
 Exec=asma
 Categories=Game;
 StartupNotify=true
+
