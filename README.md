@@ -38,3 +38,11 @@ Finally, install (as root):
 ninja install
 ```
 
+## Contributing
+
+By participating in Asma, you agree to the terms set forth by the
+Contributor Covenant. See `CODE_OF_CONDUCT.md` for details.
+
+Issues or pull requests can be filed on the GitHub
+[issue tracker](https://github.com/her001/asma/issues).
+
