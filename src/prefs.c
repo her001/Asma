@@ -9,6 +9,16 @@ static void destroy_bars(GtkWidget *widget,
 	    gtk_widget_destroy(widget);
 }
 
+static void info_bar_response(GtkInfoBar *info_bar,
+                      gint        response_id,
+		      gpointer    user_data)
+{
+	if (response_id != GTK_RESPONSE_OK)
+		gtk_widget_destroy(GTK_WIDGET (info_bar));
+	else
+		select_a3_folder(NULL, NULL);
+}
+
 static void clear_info_bar()
 {
 	GtkContainer *app_box;
@@ -38,15 +48,6 @@ static void show_info_bar(gchar *message)
 	gtk_widget_show_all(GTK_WIDGET (bar));
 }
 
-void info_bar_response(GtkInfoBar *info_bar,
-                      gint        response_id,
-		      gpointer    user_data)
-{
-	if (response_id != GTK_RESPONSE_OK)
-		gtk_widget_destroy(GTK_WIDGET (info_bar));
-	else
-		select_a3_folder(NULL, NULL);
-}
 
 void update_root_dir(GSettings *settings,
 		      gchar *key,
