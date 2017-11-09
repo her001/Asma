@@ -13,10 +13,17 @@ static void info_bar_response(GtkInfoBar *info_bar,
                       gint        response_id,
 		      gpointer    user_data)
 {
-	if (response_id != GTK_RESPONSE_OK)
-		gtk_widget_destroy(GTK_WIDGET (info_bar));
-	else
+	switch (response_id) {
+	case 1:
 		select_a3_folder(NULL, NULL);
+		break;
+	case 2:
+		gtk_widget_destroy(GTK_WIDGET (info_bar));
+		check_steam(TRUE);
+		break;
+	case GTK_RESPONSE_CLOSE:
+		gtk_widget_destroy(GTK_WIDGET (info_bar));
+	}
 }
 
 static void clear_info_bar()
@@ -32,10 +39,21 @@ static void show_info_bar(gchar *message)
 	GtkBox *app_box;
 	GtkInfoBar *bar;
 	GtkWidget *label;
+	gchar *button_message;
+	GtkResponseType response;
+
+	if (check_steam(FALSE)) {
+		label = GTK_WIDGET (gtk_label_new(message));
+		button_message = "_Select Folder";
+		response = 1;
+	} else {
+		label = GTK_WIDGET (gtk_label_new("Steam not found! Please install Steam."));
+		button_message = "_Done";
+		response = 2;
+	}
 
 	app_box = GTK_BOX (gtk_builder_get_object(builder, "app_box"));
-	bar = GTK_INFO_BAR (gtk_info_bar_new_with_buttons("_Select Folder", GTK_RESPONSE_OK, NULL));
-	label = GTK_WIDGET (gtk_label_new(message));
+	bar = GTK_INFO_BAR (gtk_info_bar_new_with_buttons(button_message, response, NULL));
 	clear_info_bar();
 
 	gtk_box_pack_start(GTK_BOX (gtk_info_bar_get_content_area(bar)), label, FALSE, FALSE, 0);
@@ -44,10 +62,22 @@ static void show_info_bar(gchar *message)
 	g_signal_connect(GTK_WIDGET (bar), "response", G_CALLBACK (info_bar_response), NULL);
 
 	gtk_box_pack_start(app_box, GTK_WIDGET (bar), FALSE, FALSE, 0);
-	gtk_info_bar_set_default_response(bar, GTK_RESPONSE_OK);
+	gtk_info_bar_set_default_response(bar, response);
 	gtk_widget_show_all(GTK_WIDGET (bar));
 }
 
+gboolean check_steam(gboolean show_bar)
+{
+	GtkWidget *button;
+	gboolean present;
+
+	button = GTK_WIDGET (gtk_builder_get_object(builder, "play_button"));
+	present = (g_find_program_in_path("steam") != NULL);
+	if ((!present) && show_bar)
+		show_info_bar("");
+	gtk_widget_set_sensitive(button, present);
+	return present;
+}
 
 void update_root_dir(GSettings *settings,
 		      gchar *key,
