@@ -93,22 +93,6 @@ static void bind_settings()
 		     g_settings_get_boolean(gset, "prefer-dark-theme"), NULL);
 }
 
-static void startup(GtkApplication *app)
-{
-	GMenuModel *menu;
-
-	g_assert(GTK_IS_APPLICATION (app));
-
-	init_builder();
-	g_action_map_add_action_entries(G_ACTION_MAP (app),
-					app_entries, G_N_ELEMENTS (app_entries),
-					app);
-
-	menu = G_MENU_MODEL (gtk_builder_get_object(builder, "appmenu"));
-
-	gtk_application_set_app_menu(app, menu);
-}
-
 static void activate(GtkApplication *app)
 {
 	GtkWindow *window;
@@ -116,6 +100,12 @@ static void activate(GtkApplication *app)
 	GtkWidget *placeholder;
 
 	g_assert(GTK_IS_APPLICATION (app));
+
+	init_builder();
+
+	g_action_map_add_action_entries(G_ACTION_MAP (app),
+					app_entries, G_N_ELEMENTS (app_entries),
+					app);
 
 	window = GTK_WINDOW (gtk_builder_get_object(builder, "app_window"));
 	gtk_window_set_application(window, app);
@@ -156,7 +146,6 @@ int main(int argc, char* argv[])
 
 	app = gtk_application_new("io.github.busquetsaguilopau.Asma",
 		G_APPLICATION_FLAGS_NONE);
-	g_signal_connect(app, "startup", G_CALLBACK (startup), NULL);
 	g_signal_connect(app, "activate", G_CALLBACK (activate), NULL);
 
 	return g_application_run(G_APPLICATION (app), argc, argv);
