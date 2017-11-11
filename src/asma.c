@@ -47,14 +47,8 @@ static void quit_activated(GSimpleAction *action,
 			   GVariant *parameter,
 			   gpointer user_data)
 {
-	GtkApplication *app = user_data;
-	GList *list;
-
-	list = gtk_application_get_windows(app);
-	while (list) {
-		gtk_widget_destroy(list->data);
-		list = list->next;
-	}
+	GApplication *app = G_APPLICATION (user_data);
+	g_application_quit(app);
 }
 
 void destroy(GtkWindow *window,
