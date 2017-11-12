@@ -6,6 +6,15 @@ Copyright © 2016 Pau Busquets Aguiló
 
 **Asma** is a simple Arma 3 launcher for Linux.
 
+![alt text](data/screenshots/screenshot-asma.png "Asma Window with Mod Selection")
+
+The primary purpose is to provide a GUI for selecting the mods to launch the
+game with. In addition, the some common game options can be toggled, which are
+remembered between uses.
+
+Asma is made available under the terms of the GNU GPL version 3. See `LICENSE`
+for details.
+
 ## Requirements
 
 * [Arma 3](http://store.steampowered.com/app/107410) (obviously)
