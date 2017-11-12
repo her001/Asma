@@ -1,0 +1,9 @@
+language: c
+
+install: pip3 install --user meson
+
+script:
+  - meson builddir
+  - cd builddir
+  - ninja
+
