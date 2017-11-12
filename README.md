@@ -27,6 +27,9 @@ character.
 
 ## Installation
 
+The following are generic build instructions. For more specific instructions,
+please visit the [wiki](https://github.com/her001/Asma/wiki/Build-Instructions).
+
 First, clone the project and switch to the directory:
 
 ```
