@@ -8,9 +8,10 @@ Copyright © 2016 Pau Busquets Aguiló
 
 ![alt text](data/screenshots/screenshot-asma.png "Asma Window with Mod Selection")
 
-The primary purpose is to provide a GUI for selecting the mods to launch the
-game with. In addition, the some common game options can be toggled, which are
-remembered between uses.
+The primary purpose is to provide a GUI for selecting modifications to launch
+the game with. In addition, some common game options can be toggled, which are
+remembered between uses. Note that Asma may be functional on macOS, but this is
+untested.
 
 Asma is made available under the terms of the GNU GPL version 3. See `LICENSE`
 for details.
