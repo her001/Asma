@@ -20,7 +20,7 @@ for details.
 
 * [Arma 3](http://store.steampowered.com/app/107410) (obviously)
 * [GTK+ 3](https://www.gtk.org/download/index.php)
-* [Meson](https://github.com/mesonbuild/meson/releases) and [Ninja](https://github.com/ninja-build/ninja/releases) (for building and installing)
+* [Meson](https://github.com/mesonbuild/meson/releases) ≥ 0.36.0 and [Ninja](https://github.com/ninja-build/ninja/releases) (for building and installing)
 
 Any mods should be in the Arma 3 folder (linking works) and start with the "@"
 character.

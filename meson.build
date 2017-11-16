@@ -1,4 +1,4 @@
-project('asma', 'c')
+project('asma', 'c', meson_version: '>=0.36.0')
 
 add_project_link_arguments('-export-dynamic', language: 'c')
 
