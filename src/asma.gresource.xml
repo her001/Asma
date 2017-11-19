@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gresources>
-	<gresource prefix="/io/github/busquetsaguilopau/Asma">
+	<gresource prefix="/io/github/her001/Asma">
 		<file>asma.glade</file>
 		<file alias="gtk/menus.ui">menus.ui</file>
 		<file>preferences.glade</file>

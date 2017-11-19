@@ -357,7 +357,7 @@
     <property name="copyright" translatable="yes">© 2016, 2017 Andrew "HER0" Conrad
 © 2016 Pau Busquets Aguiló</property>
     <property name="comments" translatable="yes">Simple Arma 3 Launcher</property>
-    <property name="website">https://github.com/busquetsaguilopau/asma</property>
+    <property name="website">https://github.com/her001/asma</property>
     <property name="website_label" translatable="yes">GitHub Page</property>
     <property name="authors">Andrew "HER0" Conrad
 Pau Busquets Aguiló

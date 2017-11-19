@@ -124,8 +124,8 @@ static void activate(GtkApplication *app)
 
 static void init_settings()
 {
-	gset = g_settings_new("io.github.busquetsaguilopau.Asma");
-	gset_a3 = g_settings_new("io.github.busquetsaguilopau.Asma.arma3");
+	gset = g_settings_new("io.github.her001.Asma");
+	gset_a3 = g_settings_new("io.github.her001.Asma.arma3");
 	g_signal_connect(gset_a3, "changed::game-path", G_CALLBACK (update_and_check_dir), NULL);
 	update_root_dir(gset_a3, "game-path", NULL);
 }
@@ -133,9 +133,9 @@ static void init_settings()
 static void init_builder()
 {
 	builder = gtk_builder_new();
-	gtk_builder_add_from_resource(builder, "/io/github/busquetsaguilopau/Asma/asma.glade", NULL);
-	gtk_builder_add_from_resource(builder, "/io/github/busquetsaguilopau/Asma/preferences.glade", NULL);
-	gtk_builder_add_from_resource(builder, "/io/github/busquetsaguilopau/Asma/appmenu.ui", NULL);
+	gtk_builder_add_from_resource(builder, "/io/github/her001/Asma/asma.glade", NULL);
+	gtk_builder_add_from_resource(builder, "/io/github/her001/Asma/preferences.glade", NULL);
+	gtk_builder_add_from_resource(builder, "/io/github/her001/Asma/appmenu.ui", NULL);
 }
 
 int main(int argc, char* argv[])
@@ -144,7 +144,7 @@ int main(int argc, char* argv[])
 
 	init_settings();
 
-	app = gtk_application_new("io.github.busquetsaguilopau.Asma",
+	app = gtk_application_new("io.github.her001.Asma",
 		G_APPLICATION_FLAGS_NONE);
 	g_signal_connect(app, "activate", G_CALLBACK (activate), NULL);
 

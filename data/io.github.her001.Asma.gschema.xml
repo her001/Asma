@@ -1,5 +1,5 @@
 <schemalist>
-	<schema id="io.github.busquetsaguilopau.Asma" path="/io/github/busquetsaguilopau/Asma/">
+	<schema id="io.github.her001.Asma" path="/io/github/her001/Asma/">
 		<key name="prefer-dark-theme" type="b">
 			<default>true</default>
 			<summary>Prefer dark theme</summary>
@@ -8,7 +8,7 @@
 			</description>
 		</key>
 	</schema>
-	<schema id="io.github.busquetsaguilopau.Asma.arma3" path="/io/github/busquetsaguilopau/Asma/arma3/">
+	<schema id="io.github.her001.Asma.arma3" path="/io/github/her001/Asma/arma3/">
 		<key name="game-path" type="s">
 			<default>".local/share/Steam/steamapps/common/Arma 3"</default>
 			<summary>Path to Arma 3 directory</summary>
