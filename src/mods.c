@@ -36,31 +36,45 @@ static gint sort_alpha(const void *a,
 	return g_strcmp0((gchar *) x, (gchar *) y);
 }
 
+static GListStore* add_mods(GDir       *dir,
+			    GListStore *mods,
+			    gboolean    is_relative)
+{
+	gchar *entry = "";
+
+	if (dir == NULL)
+		return mods;
+
+	do {
+		const gchar *abs_path;
+
+		if (is_relative && g_str_has_prefix(entry, "@")) {
+			abs_path = g_file_get_path(g_file_get_child(arma3_root, entry));
+		} else {
+			abs_path = "";
+		}
+
+		if (g_file_test(abs_path, G_FILE_TEST_IS_DIR)) {
+			GtkToggleButton *button;
+			button = GTK_TOGGLE_BUTTON (gtk_toggle_button_new_with_label(entry));
+			g_list_store_append(mods, (gpointer) button);
+		}
+
+		entry = g_strdup(g_dir_read_name(dir));
+	} while (entry != NULL);
+
+	return mods;
+}
+
 static GListStore* get_local_mods()
 {
 	GDir *dir;
 	GListStore *mods;
-	gchar *entry = "";
 
 	mods = g_list_store_new(g_type_from_name("GtkToggleButton"));
 
 	dir = g_dir_open(g_file_get_path(arma3_root), 0, NULL);
-	if (dir == NULL) {
-		return mods;
-	}
-
-	do {
-		if (g_str_has_prefix(entry, "@")) {
-			const gchar *abs_path;
-			abs_path = g_file_get_path(g_file_get_child(arma3_root, entry));
-			if (g_file_test(abs_path, G_FILE_TEST_IS_DIR)) {
-				GtkToggleButton *button;
-				button = GTK_TOGGLE_BUTTON (gtk_toggle_button_new_with_label(entry));
-				g_list_store_append(mods, (gpointer) button);
-			}
-		}
-		entry = g_strdup(g_dir_read_name(dir));
-	} while (entry != NULL);
+	mods = add_mods(dir, mods, TRUE);
 
 	g_list_store_sort(mods, &sort_alpha, NULL);
 	g_dir_close(dir);
