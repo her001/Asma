@@ -14,8 +14,12 @@ static gchar* mods_param()
 	while (mods_l) {
 		GtkButton *b;
 		b = GTK_BUTTON (gtk_bin_get_child(mods_l->data));
-		if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(b)))
-			param = g_strconcat(param, gtk_button_get_label(b), "\\\\;", NULL);
+		if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(b))) {
+			const gchar *mod_name = gtk_button_get_label(b);
+			if (!g_str_has_prefix(mod_name, "@"))
+				param = g_strconcat(g_file_get_path(arma3_workshop), "/", NULL);
+			param = g_strconcat(param, mod_name, "\\\\;", NULL);
+		}
 		mods_l = mods_l->next;
 	}
 

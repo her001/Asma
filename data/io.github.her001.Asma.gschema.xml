@@ -16,6 +16,13 @@
 				If the path is relative, it will be appended to the user's home directory.
 			</description>
 		</key>
+		<key name="workshop-path" type="s">
+			<default>".local/share/Steam/steamapps/workshop/content/107410"</default>
+			<summary>Path to Arma 3 workshop folder</summary>
+			<description>
+				If the path is relative, it will be appended to the user's home directory.
+			</description>
+		</key>
 		<key name="force-windowed" type="b">
 			<default>false</default>
 			<summary>Launch in windowed mode</summary>

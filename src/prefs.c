@@ -92,6 +92,13 @@ static GFile* get_gset_dir(GSettings *settings,
 	return g_file_new_for_path(path);
 }
 
+void update_workshop_dir(GSettings *settings,
+		     gchar     *key,
+		     gpointer   user_data)
+{
+	arma3_workshop = get_gset_dir(settings, key);
+}
+
 void update_root_dir(GSettings *settings,
 		     gchar     *key,
 		     gpointer   user_data)

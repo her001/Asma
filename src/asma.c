@@ -128,6 +128,7 @@ static void init_settings()
 	gset_a3 = g_settings_new("io.github.her001.Asma.arma3");
 	g_signal_connect(gset_a3, "changed::game-path", G_CALLBACK (update_and_check_dir), NULL);
 	update_root_dir(gset_a3, "game-path", NULL);
+	update_workshop_dir(gset_a3, "workshop-path", NULL);
 }
 
 static void init_builder()

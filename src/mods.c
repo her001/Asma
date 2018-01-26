@@ -50,6 +50,8 @@ static GListStore* add_mods(GDir       *dir,
 
 		if (is_relative && g_str_has_prefix(entry, "@")) {
 			abs_path = g_file_get_path(g_file_get_child(arma3_root, entry));
+		} else if (!is_relative && !g_str_equal(entry, "")) {
+			abs_path = g_file_get_path(g_file_get_child(arma3_workshop, entry));
 		} else {
 			abs_path = "";
 		}
@@ -75,6 +77,9 @@ static GListStore* get_local_mods()
 
 	dir = g_dir_open(g_file_get_path(arma3_root), 0, NULL);
 	mods = add_mods(dir, mods, TRUE);
+
+	dir = g_dir_open(g_file_get_path(arma3_workshop), 0, NULL);
+	mods = add_mods(dir, mods, FALSE);
 
 	g_list_store_sort(mods, &sort_alpha, NULL);
 	g_dir_close(dir);

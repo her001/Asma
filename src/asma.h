@@ -17,6 +17,7 @@
 void browse_dir();
 
 GFile *arma3_root;
+GFile *arma3_workshop;
 GtkBuilder *builder;
 GSettings *gset;
 GSettings *gset_a3;
