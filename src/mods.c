@@ -76,13 +76,18 @@ static GListStore* get_local_mods()
 	mods = g_list_store_new(g_type_from_name("GtkToggleButton"));
 
 	dir = g_dir_open(g_file_get_path(arma3_root), 0, NULL);
-	mods = add_mods(dir, mods, TRUE);
+	if (dir != NULL) {
+		mods = add_mods(dir, mods, TRUE);
+		g_dir_close(dir);
+	}
 
 	dir = g_dir_open(g_file_get_path(arma3_workshop), 0, NULL);
-	mods = add_mods(dir, mods, FALSE);
+	if (dir != NULL) {
+		mods = add_mods(dir, mods, FALSE);
+		g_dir_close(dir);
+	}
 
 	g_list_store_sort(mods, &sort_alpha, NULL);
-	g_dir_close(dir);
 	return mods;
 }
 
