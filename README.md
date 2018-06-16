@@ -1,4 +1,4 @@
-# [Asma](https://github.com/her001/asma)
+# [Asma](https://gitlab.com/her0/asma)
 
 Copyright © 2016, 2017 Andrew "HER0" Conrad
 
@@ -28,12 +28,12 @@ character.
 ## Installation
 
 The following are generic build instructions. For more specific instructions,
-please visit the [wiki](https://github.com/her001/Asma/wiki/Build-Instructions).
+please visit the [wiki](https://gitlab.com/her0/Asma/wikis/build-instructions).
 
 First, clone the project and switch to the directory:
 
 ```
-git clone https://github.com/her001/asma.git
+git clone https://gitlab.com/her0/asma.git
 cd asma
 ```
 
@@ -56,6 +56,6 @@ ninja install
 By participating in Asma, you agree to the terms set forth by the
 Contributor Covenant. See `CODE_OF_CONDUCT.md` for details.
 
-Issues or pull requests can be filed on the GitHub
-[issue tracker](https://github.com/her001/asma/issues).
+Issues or pull requests can be filed on the GitLab
+[issue tracker](https://gitlab.com/her0/asma/issues).
 
